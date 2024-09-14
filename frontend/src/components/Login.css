@@ -1,0 +1,106 @@
+/* 로그인 컨테이너 */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+
+.login-content {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* 로고 박스 */
+.logo-box {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.logo-img {
+    width: 300px;
+    height: auto;
+}
+
+/* 로그인 폼 박스 */
+.login-box {
+    flex: 1;
+    border: 2px solid black;
+    padding: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form label {
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.login-form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid black;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+}
+
+.remember-me input {
+    margin-right: 10px;
+}
+
+.login-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #003580;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* 아이디 찾기, 비밀번호 찾기 */
+.helper-links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.helper-links a {
+    font-size: 14px;
+    color: black;
+    text-decoration: none;
+}
+
+
+/* 반응형 레이아웃 */
+@media screen and (max-width: 768px) {
+    .login-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo-box {
+        margin-bottom: 20px;
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 500px;
+    }
+}

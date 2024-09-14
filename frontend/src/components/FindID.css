@@ -1,0 +1,36 @@
+.findid-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.findid-container input {
+    padding: 10px;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.findid-container button {
+    padding: 10px 20px;
+    background-color: #003580;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 320px;
+    display: block; /* 버튼을 블록 요소로 설정 */
+    margin: 20px auto 0 auto; /* 버튼을 가운데 정렬하고, 위쪽에 여백 추가 */
+}
+
+/* 비밀번호 찾기 링크 스타일 */
+.link-to-password {
+    margin-top: 20px;
+}
+
+.link-to-password a {
+    color: #003580;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.link-to-password a:hover {
+    text-decoration: underline;
+}
