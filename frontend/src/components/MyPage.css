@@ -1,0 +1,41 @@
+.mypage-container {
+    width: 60%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.profile-info {
+    margin-bottom: 20px;
+}
+
+.password-change {
+    margin-bottom: 40px;
+}
+
+.password-change input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 300px;
+}
+
+.password-change button {
+    padding: 10px 20px;
+    background-color: #003580;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.password-change button:hover {
+    background-color: #002a5c;
+}
+
+.mypage-logo img {
+    width: 200px;
+}
+
+.message {
+    color: red;
+    margin-top: 10px;
+}

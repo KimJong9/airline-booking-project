@@ -7,7 +7,9 @@ import Login from './components/Login';
 import FindID from './components/FindID';  // 아이디 찾기 페이지
 import Signup from './components/Signup';  // 회원가입 페이지
 import FindPassword from './components/FindPassword';  // 비밀번호 찾기 페이지
+import Home from './components/Home';
 import './App.css';
+import MyPage from "./components/MyPage";
 
 
 function App() {
@@ -19,13 +21,14 @@ function App() {
 
                 {/* 메인 섹션 */}
                 <Routes>
-                    <Route path="/" element={<BookingSection />} />
+                    <Route path="/" element={<Home />} />
                     {/* 다른 라우트 추가 가능 */}
+                    <Route path="/book-flight" element={<BookingSection />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/find-id" element={<FindID />} />  {/* 아이디 찾기 페이지 */}
                     <Route path="/find-password" element={<FindPassword />} />  {/* 비밀번호 찾기 페이지 */}
                     <Route path="/signup" element={<Signup />} />  {/* 회원가입 페이지 */}
-
+                    <Route path="/mypage" element={<MyPage />} />
 
                 </Routes>
 

@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import './Login.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();  // useNavigate 훅 사용
 
-    const handleLogin = async () => {
-        try {
-            const response = await axios.post('url/api/login', {
-                username: username,
-                password: password,
+    const handleLogin = () => {
+        axios.post('/api/login', { username, password })
+            .then((response) => {
+                localStorage.setItem('token', response.data.token);  // JWT 토큰 저장
+                navigate('/mypage');  // 로그인 성공 시 마이페이지로 이동
+            })
+            .catch((error) => {
+                console.error('로그인 실패', error);
             });
-            console.log(response.data);  // 응답 처리
-        } catch (error) {
-            console.error('로그인 실패:', error);
-        }
     };
 
     return (
