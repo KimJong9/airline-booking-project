@@ -1,3 +1,5 @@
+CREATE DATABASE airline_booking;
+
 -- 사용할 데이터베이스 선택
 USE airline_booking; --추후 변경할 것
 
@@ -31,9 +33,9 @@ CREATE TABLE air_craft (
 -- flight_schedule 테이블
 CREATE TABLE flight_schedule (
     id VARCHAR(255) PRIMARY KEY,
-    arrival DATE NOT NULL,
-    departure DATE NOT NULL,
-    flight_date DATE NOT NULL
+    arrival TIMESTAMP NOT NULL,
+    departure TIMESTAMP NOT NULL,
+    flight_date TIMESTAMP NOT NULL
 );
 
 -- passenger 테이블
@@ -51,8 +53,8 @@ CREATE TABLE passenger (
 -- transaction 테이블
 CREATE TABLE transaction (
     id VARCHAR(255) PRIMARY KEY,
-    booking_date DATE NOT NULL,
-    departure_date DATE NOT NULL,
+    booking_date TIMESTAMP NOT NULL,
+    departure_date TIMESTAMP NOT NULL,
     type VARCHAR(16),
     flight_schedule_id VARCHAR(255),
     passenger_id VARCHAR(255),
