@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import BookingSection from './components/BookingSection';
@@ -13,12 +13,14 @@ import MyPage from "./components/MyPage";
 
 
 function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
+
     return (
         <Router>
             <div>
-                {/* 네비게이션 바 */}
-                <Navbar />
 
+                {/* 네비게이션 바 */}
+                <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
                 {/* 메인 섹션 */}
                 <Routes>
                     <Route path="/" element={<Home />} />

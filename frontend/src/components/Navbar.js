@@ -1,9 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // 라우팅 설정 시 사용
+import React, { useEffect}  from 'react';
+import { Link, useNavigate } from 'react-router-dom'; // 라우팅 설정 시 사용
 import './Navbar.css'; // 스타일링
 
 function Navbar({ isLoggedIn, setIsLoggedIn }) {
+    const Navigate = useNavigate();
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, [setIsLoggedIn]);
+
     const handleLogout = () => {
+        localStorage.removeItem('token');  // 토큰 제거
+        Navigate('/login');
         setIsLoggedIn(false);
     };
 

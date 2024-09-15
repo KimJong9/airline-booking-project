@@ -16,3 +16,9 @@ msa로 booking(항공 예약), payment(결제), auth(로그인, 회원가입), s
 
 DB: AWS RDS 사용, postgreDB나 Mysql 사용
 
+
+작업 목록
+
+9월 14일: 프론트 생성, 백엔드-auth 생성
+
+9월 15일: DB 연동 및 프론트,백엔드-auth 연동
