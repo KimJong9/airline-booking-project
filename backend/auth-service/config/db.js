@@ -1,14 +1,14 @@
 const { Pool } = require('pg');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: './.env' });
 // PostgreSQL 연결 설정
 const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT,
+    host: 'db-airline-test.cluster-c7suesgke65p.ap-northeast-2.rds.amazonaws.com',
+    user: 'postgres',
+    password: 'qwer1234',
+    database: 'airline_booking',
+    port: 5432,
     ssl: {
-        rejectUnauthorized: true// Aurora 클러스터를 사용하는 경우 SSL 설정이 필요할 수 있음
+        rejectUnauthorized: false// Aurora 클러스터를 사용하는 경우 SSL 설정이 필요할 수 있음
     }
 });
 

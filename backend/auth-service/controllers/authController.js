@@ -40,8 +40,8 @@ const signup = async (req, res) => {
         // 비밀번호 해시화
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // 회원 정보 저장
-        const query = `INSERT INTO user_account (username, password, full_name, email, phone_number)  VALUES ($1, $2, $3, $4, $5)`;
+        // 회원 정보 저장 (user_account 테이블에 삽입)
+        const query = `INSERT INTO user_account (username, password, full_name, email, phone_number) VALUES ($1, $2, $3, $4, $5)`;
         const values = [username, hashedPassword, full_name, email, phone_number];
 
         await pool.query(query, values);
@@ -143,6 +143,8 @@ const updatePassword = async (req, res) => {
         res.status(500).json({ message: '서버 오류', error: err });
     }
 };
+
+
 
 module.exports = {
     login,

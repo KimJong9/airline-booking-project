@@ -1,60 +1,64 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Signup.css';
 
 function Signup() {
-    const [name, setName] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
+    const [fullName, setFullName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
-    const handleSignup = () => {
-        // 회원가입 로직 (서버로 데이터 전송 로직)
-        console.log('회원가입 정보:', { name, username, password, email });
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        axios.post('http://localhost:5000/api/signup', {
+            username,
+            password,
+            email,
+            full_name: fullName, // RDS 테이블 컬럼에 맞춘 이름
+            phone_number: phoneNumber // phone_number 추가
+        })
+            .then(response => {
+                console.log('회원가입 성공:', response.data);
+            })
+            .catch(error => {
+                console.error('회원가입 실패:', error);
+            });
     };
 
     return (
         <div className="signup-container">
-            <h2>회원가입</h2>
-
-            <label htmlFor="name">이름</label>
-            <input
-                type="text"
-                id="name"
-                placeholder="이름을 입력하세요"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-            />
-
-            <label htmlFor="username">아이디</label>
-            <input
-                type="text"
-                id="username"
-                placeholder="아이디를 입력하세요"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-
-            <label htmlFor="password">비밀번호</label>
-            <input
-                type="password"
-                id="password"
-                placeholder="비밀번호를 입력하세요"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <label htmlFor="email">이메일</label>
-            <input
-                type="email"
-                id="email"
-                placeholder="이메일을 입력하세요"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <button onClick={handleSignup}>회원가입</button>
+            <form className="signup-form" onSubmit={handleSubmit}>
+                <h2>회원가입</h2>
+                <div className="form-group">
+                    <label>아이디:</label>
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>비밀번호:</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>이름:</label>
+                    <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>이메일:</label>
+                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                </div>
+                <div className="form-group">
+                    <label>휴대폰 번호:</label>
+                    <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required />
+                </div>
+                <button type="submit">회원가입</button>
+                <div className="form-footer">
+                    <p>이미 계정이 있으신가요? <a href="/login">로그인</a></p>
+                </div>
+            </form>
         </div>
     );
-}
+};
+
 
 export default Signup;

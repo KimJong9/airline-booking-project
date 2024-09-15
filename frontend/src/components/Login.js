@@ -9,7 +9,7 @@ function Login() {
     const navigate = useNavigate();  // useNavigate 훅 사용
 
     const handleLogin = () => {
-        axios.post('/api/login', { username, password })
+        axios.post('http://localhost:5000/api/login', { username, password })
             .then((response) => {
                 localStorage.setItem('token', response.data.token);  // JWT 토큰 저장
                 navigate('/mypage');  // 로그인 성공 시 마이페이지로 이동

@@ -16,7 +16,7 @@
 
 # misc
 frontend/.env
-backend/*/.env
+backend/auth-service/config/.env
 .DS_Store
 .env.local
 .env.development.local
