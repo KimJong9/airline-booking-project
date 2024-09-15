@@ -2,41 +2,55 @@ import React, { useState, useEffect } from 'react';
 import './MyPage.css';
 import axios from 'axios';
 
-function MyPage() {
-    const [userData, setUserData] = useState({
-        name: '',
-        username: '',
-        email: ''
-    });
-
+const MyPage = () => {
+    const [userData, setUserData] = useState({});
     const [passwords, setPasswords] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
     });
-
     const [message, setMessage] = useState('');
 
+    // 사용자 정보 가져오기
     useEffect(() => {
-        // 백엔드에서 사용자 정보 가져오기
-        axios.get('/api/myprofile', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
+        const fetchUserData = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('토큰이 없습니다.');
+                return;
             }
-        })
-            .then((response) => {
-                setUserData(response.data);
-            })
-            .catch((error) => {
-                console.error('사용자 정보 가져오기 실패', error);
-            });
+
+            try {
+                // JWT 토큰에서 아이디 추출
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                const username = decodedToken.username; // 토큰에 담긴 사용자 아이디
+
+                // 사용자 정보를 DB에서 가져오기
+                const response = await axios.get(`http://localhost:5001/api/user/${username}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                setUserData(response.data); // 가져온 데이터 저장
+            } catch (error) {
+                console.error('사용자 정보 가져오기 실패:', error);
+            }
+        };
+
+        fetchUserData();
     }, []);
 
+    // 비밀번호 입력값 업데이트
     const handlePasswordChange = (e) => {
         setPasswords({ ...passwords, [e.target.name]: e.target.value });
     };
 
+    // 비밀번호 유효성 검사 및 제출
     const handlePasswordSubmit = () => {
+        if (passwords.newPassword.length < 8) {
+            setMessage('비밀번호는 8자리 이상이어야 합니다.');
+            return;
+        }
+
         if (passwords.newPassword !== passwords.confirmPassword) {
             setMessage('새로운 비밀번호와 비밀번호 확인이 일치하지 않습니다.');
             return;
@@ -51,10 +65,10 @@ function MyPage() {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
-            .then((response) => {
+            .then(() => {
                 setMessage('비밀번호가 성공적으로 변경되었습니다.');
             })
-            .catch((error) => {
+            .catch(() => {
                 setMessage('비밀번호 변경에 실패했습니다.');
             });
     };
@@ -63,9 +77,10 @@ function MyPage() {
         <div className="mypage-container">
             <h2>My Page</h2>
             <div className="profile-info">
-                <p><strong>이름:</strong> {userData.name}</p>
+                <p><strong>이름:</strong> {userData.full_name}</p>
                 <p><strong>아이디:</strong> {userData.username}</p>
                 <p><strong>이메일:</strong> {userData.email}</p>
+                <p><strong>전화번호:</strong> {userData.phone_number}</p>
             </div>
 
             <div className="password-change">

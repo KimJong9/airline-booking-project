@@ -10,7 +10,7 @@ import FindPassword from './components/FindPassword';  // 비밀번호 찾기 �
 import Home from './components/Home';
 import './App.css';
 import MyPage from "./components/MyPage";
-
+import List from './components/List';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
@@ -31,7 +31,7 @@ function App() {
                     <Route path="/find-password" element={<FindPassword />} />  {/* 비밀번호 찾기 페이지 */}
                     <Route path="/signup" element={<Signup />} />  {/* 회원가입 페이지 */}
                     <Route path="/mypage" element={<MyPage />} />
-
+                    <Route path="/list" element={<List />} />
                 </Routes>
 
                 {/* 하단 */}

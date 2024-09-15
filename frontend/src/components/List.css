@@ -1,0 +1,47 @@
+/* 전체 컨테이너 */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    min-height: 80vh;
+}
+
+/* 제목 스타일 */
+.list-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* 목록 스타일 */
+.list-container ul {
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+.list-container li {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+/* 항목 hover 효과 */
+.list-container li:hover {
+    background-color: #e7f3ff;
+}
+
+/* 공백 처리 */
+.list-container p {
+    color: #888;
+    font-size: 16px;
+}

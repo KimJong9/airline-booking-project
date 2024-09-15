@@ -1,28 +1,78 @@
-.booking-section {
-    text-align: center;
-    margin: 50px 0;
-}
-
-.form {
+/* 전체 컨테이너 */
+.booking-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    background-color: #f8f9fa;
+    padding: 20px;
 }
 
-.form label {
-    margin: 10px 0 5px;
+/* 제목 */
+.booking-container h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
 }
 
-.form input {
+/* 예약 섹션 */
+.booking-section {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 900px;
+    margin-bottom: 30px;
+}
+
+/* 출발지와 도착지 */
+.departure-section, .arrival-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 45%;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 각 섹션 내부 제목 */
+.departure-section h3, .arrival-section h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* 라벨 및 입력 스타일 */
+.departure-section label, .arrival-section label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+.departure-section select, .arrival-section select,
+.departure-section input, .arrival-section input {
+    width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
 }
 
-button {
-    padding: 10px 20px;
-    background-color: #0072ce;
+.booking-container button {
+    padding: 12px 20px;
+    background-color: #007bff;
     color: white;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.booking-container button:hover {
+    background-color: #0056b3;
 }

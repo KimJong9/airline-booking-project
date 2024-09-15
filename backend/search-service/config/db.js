@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-require('dotenv').config({ path: './.env' });
+
 // PostgreSQL 연결 설정
 const pool = new Pool({
     host: 'db-airline-test.cluster-c7suesgke65p.ap-northeast-2.rds.amazonaws.com',
@@ -12,14 +12,12 @@ const pool = new Pool({
     }
 });
 
-// 연결 테스트
 pool.connect((err) => {
     if (err) {
         console.error('PostgreSQL 연결 실패:', err);
         return;
     }
-    console.log('Auth Service가 PostgreSQL에 성공적으로 연결되었습니다.');
+    console.log('Search Service가 PostgreSQL에 성공적으로 연결되었습니다.');
 });
 
 module.exports = pool;
-
