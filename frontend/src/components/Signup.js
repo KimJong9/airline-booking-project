@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Signup.css';
 
@@ -9,22 +10,28 @@ function Signup() {
     const [fullName, setFullName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const navigate = useNavigate();
 
-        axios.post('http://localhost:5000/api/signup', {
-            username,
-            password,
-            email,
-            full_name: fullName, // RDS 테이블 컬럼에 맞춘 이름
-            phone_number: phoneNumber // phone_number 추가
-        })
-            .then(response => {
-                console.log('회원가입 성공:', response.data);
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:5000/api/signup', {
+                username,
+                password,
+                email,
+                full_name: fullName, // RDS 테이블 컬럼에 맞춘 이름
+                phone_number: phoneNumber // phone_number 추가
             })
-            .catch(error => {
-                console.error('회원가입 실패:', error);
-            });
+            if (response.status === 201) {
+                navigate("/login");
+            } else {
+                // 실패시 에러 메시지 처리
+                console.error("회원가입 실패:", response.data.message);
+            }
+        } catch (error) {
+            console.error("서버에러");
+        }
+
     };
 
     return (

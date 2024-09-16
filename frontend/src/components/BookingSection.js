@@ -90,6 +90,7 @@ function BookingSection() {
         })
             .then((response) => {
                 const flightData = response.data;
+                console.log(flightData);
                 navigate('/list', { state: { flights: flightData } });  // List 페이지로 데이터 전달
             })
             .catch((error) => console.error('항공편 검색 실패:', error));
@@ -129,7 +130,7 @@ function BookingSection() {
                             </option>
                         ))}
                     </select>
-                    <label>출발 날짜</label>
+                    <label>가는 날</label> {/* 출발 날짜를 가는 날로 변경 */}
                     <input type="date" value={departureDate} onChange={(e) => setDepartureDate(e.target.value)} />
                 </div>
 
@@ -163,13 +164,13 @@ function BookingSection() {
                             </option>
                         ))}
                     </select>
-                    <label>도착 날짜</label>
+                    <label>오는 날</label> {/* 도착 날짜를 오는 날로 변경 */}
                     <input type="date" value={arrivalDate} onChange={(e) => setArrivalDate(e.target.value)} />
                 </div>
             </div>
             <button onClick={handleSearch}>항공편 검색</button>
         </div>
     );
-};
+}
 
 export default BookingSection;

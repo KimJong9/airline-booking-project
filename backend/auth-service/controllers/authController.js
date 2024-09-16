@@ -45,10 +45,10 @@ const signup = async (req, res) => {
         const values = [username, hashedPassword, full_name, email, phone_number];
 
         await pool.query(query, values);
-        res.status(201).json({ message: '회원 가입이 성공적으로 완료되었습니다.' });
+        return res.status(201).json({ message: '회원 가입이 성공적으로 완료되었습니다.' });
     } catch (err) {
         console.error('회원 가입 실패:', err);
-        res.status(500).json({ message: '회원 가입 중 오류가 발생했습니다.' });
+        return res.status(500).json({ message: '회원 가입 중 오류가 발생했습니다.' });
     }
 };
 

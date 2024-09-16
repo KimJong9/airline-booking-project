@@ -11,6 +11,7 @@ import Home from './components/Home';
 import './App.css';
 import MyPage from "./components/MyPage";
 import List from './components/List';
+import Payment from "./components/Payment";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태 관리
@@ -32,6 +33,7 @@ function App() {
                     <Route path="/signup" element={<Signup />} />  {/* 회원가입 페이지 */}
                     <Route path="/mypage" element={<MyPage />} />
                     <Route path="/list" element={<List />} />
+                    <Route path="/payment" element={<Payment />} />
                 </Routes>
 
                 {/* 하단 */}

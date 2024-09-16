@@ -22,3 +22,9 @@ DB: AWS RDS 사용, postgreDB나 Mysql 사용
 9월 14일: 프론트 생성, 백엔드-auth 생성
 
 9월 15일: DB 연동 및 프론트,백엔드-auth 연동
+
+9월 16일: 백엔드 Search 기능 구현
+
+9월 17일: 백엔드 Booking 기능 구현, 도커 이미지 생성
+
+9월 18일: 백엔드 API 게이트웨이 사용하게 설정 및 Payment 구현
