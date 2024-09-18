@@ -1,10 +1,27 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
+import axios from "axios"; // For sending the request
+
 
 const Payment = () => {
     const location = useLocation();
-    const { departureFlight, arrivalFlight } = location.state || {};
-
+    const { departureFlight, arrivalFlight} = location.state || {};
+    const token = localStorage.getItem('token');
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const username = decodedToken.username;
+    const handleBooking = async () => {
+        try {
+            await axios.post('http://localhost:5002/api/booking', {
+                userId: username,
+                departureFlight: departureFlight.flight_code,
+                arrivalFlight: arrivalFlight.flight_code
+            });
+            alert('Booking successful!');
+        } catch (error) {
+            console.error('Booking failed:', error);
+            alert('Booking failed. Please try again.');
+        }
+    };
     return (
         <div>
             <h2>결제 정보</h2>
@@ -22,7 +39,8 @@ const Payment = () => {
                 )}
             </div>
 
-            {/* 결제 관련 정보 처리 */}
+            {/* Confirm Booking Button */}
+            <button onClick={handleBooking}>예약 하기</button>
         </div>
     );
 };

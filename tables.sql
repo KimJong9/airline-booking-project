@@ -50,10 +50,10 @@ CREATE TABLE user_account (
 -- 예약 정보 테이블
 CREATE TABLE booking (
     booking_id SERIAL PRIMARY KEY,        -- 예약 번호
-    user_id INT NOT NULL,                 -- 회원 아이디 (참조)
+    username VARCHAR(255) NOT NULL,                 -- 회원 아이디 (참조)
     flight_code VARCHAR(255) NOT NULL,    -- 비행 코드 (참조)
     booking_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 예약 날짜
-    FOREIGN KEY (user_id) REFERENCES user_account(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (username) REFERENCES user_account(username) ON DELETE CASCADE,
     FOREIGN KEY (flight_code) REFERENCES flight(flight_code) ON DELETE CASCADE
 );
 
