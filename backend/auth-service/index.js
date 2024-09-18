@@ -11,7 +11,7 @@ app.use(cors());
 
 // 라우트 연결
 const authRoutes = require('./routes/authRoutes');
-app.use('/api', authRoutes);  // /api로 시작하는 요청은 authRoutes에서 처리
+app.use('/auth', authRoutes);  // /api로 시작하는 요청은 authRoutes에서 처리
 
 // 서버 시작
 app.listen(PORT, () => {

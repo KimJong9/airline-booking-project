@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const bookingRoutes = require('./routes/bookingRoutes');
-app.use('/api', bookingRoutes);
+app.use('/booking', bookingRoutes);
 
 
 app.listen(PORT, () => {

@@ -26,7 +26,7 @@ const MyPage = () => {
                 const username = decodedToken.username; // 토큰에 담긴 사용자 아이디
 
                 // 사용자 정보를 DB에서 가져오기
-                const response = await axios.get(`http://localhost:5001/api/user/${username}`, {
+                const response = await axios.get(`http://localhost:5001/search/user/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

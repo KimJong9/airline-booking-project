@@ -13,7 +13,7 @@ function Login(setIsLoggedIn, IsLoggedIn=false) {
         e.preventDefault(); // 폼 제출 시 새로고침 방지
 
         try {
-            const response = await axios.post("http://localhost:5000/api/login", {
+            const response = await axios.post("http://localhost:5000/auth/login", {
                 username,
                 password,
             });

@@ -1,0 +1,29 @@
+version: '3'
+services:
+  auth:
+    build:
+      context: ./backend/auth-service
+    ports:
+      - "5000:5000"
+    networks:
+      - backend-network
+
+  booking:
+    build:
+      context: ./backend/booking-service
+    ports:
+      - "5002:5002"
+    networks:
+      - backend-network
+
+  search:
+    build:
+      context: ./backend/search-service
+    ports:
+      - "5001:5001"
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
