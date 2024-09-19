@@ -5,29 +5,113 @@ on:
       - master
     paths:
       - 'frontend/**'
+  workflow_dispatch:
+    
+env:
+  NODE_OPTION: '--no-warnings'
+  AWS_REGION: ap-northeast-2
 
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
+
     steps:
       # 1. 저장소 체크아웃
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # 2. Node.js 설치 (필요한 Node.js 버전 명시)
+      # 2. Node.js 설치
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20'  # 프로젝트에 맞는 Node.js 버전
+          node-version: '20'
 
-      # 3. 의존성 설치
+      # 3. 의존성 캐싱
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. 의존성 설치
       - name: Install dependencies
         run: |
           cd frontend
-          npm install
+          npm ci
 
-      # 4. 빌드 실행
+      # 5. 빌드 실행
       - name: Build the frontend
         run: |
           cd frontend
           npm run build
+
+      # 6. 빌드 결과물 아티팩트 업로드
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: frontend/build
+
+  test-frontend:
+    needs: build-frontend  # build-frontend가 성공적으로 완료되어야 실행
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 저장소 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Node.js 설치
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      # 3. 의존성 캐싱
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # 4. 빌드된 결과물 다운로드
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+          path: frontend/build
+
+      # 5. 테스트 실행
+      - name: Run tests
+        run: |
+          cd frontend
+          npm test
+
+  upload-frontend:
+    needs: test-frontend  # test-frontend가 성공적으로 완료되어야 실행
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 빌드된 결과물 다운로드
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-output
+          path: frontend/build
+
+      # 2. AWS Configure
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      # 3. S3로 업로드
+      - name: Upload to S3
+        run: |
+          aws s3 sync ./frontend/build s3://jaws-airline-frontend/ --delete
