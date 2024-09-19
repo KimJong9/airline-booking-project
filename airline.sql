@@ -1,8 +1,8 @@
 -- 데이터 베이스 생성
--- CREATE DATABASE airline_booking;
+CREATE DATABASE airline;
 
 -- 사용할 데이터베이스 선택
--- USE airline_booking; --추후 변경할 것
+USE airline;
 
 -- 나라와 도시 정보 테이블
 CREATE TABLE country_city (
@@ -36,31 +36,26 @@ CREATE TABLE flight (
     FOREIGN KEY (destination_airport_id) REFERENCES airport(airport_id) ON DELETE CASCADE
 );
 
+INSERT INTO country_city (country_name, city_name) VALUES
+    ('USA', 'New York'),
+    ('USA', 'Los Angeles'),
+    ('Korea', 'Seoul'),
+    ('Japan', 'Tokyo');
 
--- 회원 정보 테이블
-CREATE TABLE user_account (
-    user_id SERIAL PRIMARY KEY,          -- 숫자 기반 고유 식별자
-    username VARCHAR(255) UNIQUE NOT NULL, -- 아이디 (고유값)
-    password VARCHAR(255) NOT NULL,       -- 비밀번호
-    full_name VARCHAR(255) NOT NULL,      -- 이름
-    email VARCHAR(255) UNIQUE NOT NULL,   -- 이메일 (고유값)
-    phone_number VARCHAR(15) NOT NULL     -- 휴대폰 번호
-);
+INSERT INTO airport (airport_name, city_name, country_name) VALUES
+    ('JFK Airport', 'New York', 'USA'),
+    ('LAX Airport', 'Los Angeles', 'USA'),
+    ('Incheon Airport', 'Seoul', 'Korea'),
+    ('Narita Airport', 'Tokyo', 'Japan');
 
--- 예약 정보 테이블
-CREATE TABLE booking (
-    booking_id SERIAL PRIMARY KEY,        -- 예약 번호
-    username VARCHAR(255) NOT NULL,                 -- 회원 아이디 (참조)
-    flight_code VARCHAR(255) NOT NULL,    -- 비행 코드 (참조)
-    booking_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 예약 날짜
-    FOREIGN KEY (username) REFERENCES user_account(username) ON DELETE CASCADE,
-    FOREIGN KEY (flight_code) REFERENCES flight(flight_code) ON DELETE CASCADE
-);
+-- 출발 공항에서 도착 공항으로 가는 비행편 (2024-09-16)
+INSERT INTO flight (flight_code, departure_airport_id, destination_airport_id, departure_date, departure_time, arrival_date, arrival_time, total_seats, remaining_seats, price)
+VALUES
+    ('ICN-NRT-001', 1, 2, '2024-09-16', '10:00:00', '2024-09-16', '12:30:00', 180, 50, 300.00),  -- 인천 -> 도쿄
+    ('ICN-SIN-002', 1, 3, '2024-09-16', '14:00:00', '2024-09-16', '18:00:00', 200, 30, 450.00),  -- 인천 -> 싱가포르
+
+-- 도착 공항에서 출발 공항으로 돌아오는 비행편 (2024-09-19)
+    ('NRT-ICN-003', 2, 1, '2024-09-19', '09:00:00', '2024-09-19', '11:30:00', 180, 40, 320.00),  -- 도쿄 -> 인천
+    ('SIN-ICN-004', 3, 1, '2024-09-19', '17:00:00', '2024-09-19', '21:00:00', 200, 20, 470.00);  -- 싱가포르 -> 인천
 
 
--- DO $$ DECLARE r RECORD;
--- BEGIN
--- FOR r IN (SELECT table_name FROM information_schema.tables WHERE table_schema = 'public') LOOP
---     EXECUTE 'DROP TABLE IF EXISTS ' || r.table_name || ' CASCADE';
--- END LOOP;
--- END $$;

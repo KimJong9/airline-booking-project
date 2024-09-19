@@ -7,7 +7,11 @@ const PORT = process.env.PORT || 5000;
 
 // 미들웨어 설정
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://jaws-airline-frontend.s3-website.ap-northeast-2.amazonaws.com',  // 프론트엔드가 실행 중인 주소
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 
 // 라우트 연결
 const authRoutes = require('./routes/authRoutes');

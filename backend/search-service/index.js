@@ -7,7 +7,11 @@ const pool = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://jaws-airline-frontend.s3-website.ap-northeast-2.amazonaws.com',  // 프론트엔드가 실행 중인 주소
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true
+}));
 app.use(express.json());
 
 // 검색 라우터 연결

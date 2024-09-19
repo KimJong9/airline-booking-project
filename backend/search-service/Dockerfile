@@ -10,7 +10,7 @@ LABEL authors="outsi"
 COPY package*.json ./
 
 # 의존성 설치
-RUN npm install
+RUN npm install --build-from-source
 
 # 소스 코드 복사
 COPY . .
