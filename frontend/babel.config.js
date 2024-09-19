@@ -1,8 +1,8 @@
 module.exports = {
     presets: [
         '@babel/preset-env',
-        '@babel/preset-react'
-    ]
+        '@babel/preset-react',
+    ],
     // transform: {
     //     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',  // Babel로 변환
     // },

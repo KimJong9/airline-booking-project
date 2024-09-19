@@ -94,7 +94,7 @@ jobs:
       - name: Run tests
         run: |
           cd frontend
-          npm test --watchAll=false
+          npm test --watchAll=false a
 
   upload-frontend:
     needs: test-frontend  # test-frontend가 성공적으로 완료되어야 실행
