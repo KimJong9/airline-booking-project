@@ -77,6 +77,11 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+      # 3.5. 의존성 설치
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
 
       # 4. 빌드된 결과물 다운로드
       - name: Download build artifacts
