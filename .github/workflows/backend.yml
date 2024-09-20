@@ -15,9 +15,9 @@ jobs:
       AWS_REGION: ap-northeast-2
       ECR_REGISTRY: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com
       ECR_REPOSITORY: jaws/backend
-      IMAGE_USER: airline-booking-project-user
-      IMAGE_BOOKING: airline-booking-project-booking
-      IMAGE_FLIGHT: airline-booking-project-flight
+      IMAGE_USER: airline-booking-project_user
+      IMAGE_BOOKING: airline-booking-project_booking
+      IMAGE_FLIGHT: airline-booking-project_flight
       TAG_USER: user
       TAG_BOOKING: booking
       TAG_FLIGHT: flight
