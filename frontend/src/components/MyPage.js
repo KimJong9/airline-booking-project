@@ -26,7 +26,8 @@ const MyPage = () => {
                 const username = decodedToken.username; // 토큰에 담긴 사용자 아이디
 
                 // 사용자 정보를 DB에서 가져오기
-                const response = await axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/user/${username}`, {
+
+                const response = await axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5000/auth/user/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

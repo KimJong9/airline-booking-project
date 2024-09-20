@@ -19,4 +19,6 @@ router.post('/find-password', authController.findPassword);
 
 router.post('/update-password', authController.updatePassword);
 
+router.get('/user/:username', authController.getUserInfo);
+
 module.exports = router;
