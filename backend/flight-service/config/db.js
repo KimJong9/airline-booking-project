@@ -2,10 +2,10 @@ const { Pool } = require('pg');
 
 // PostgreSQL 연결 설정
 const pool = new Pool({
-    host: 'db-airline-test.cluster-c7suesgke65p.ap-northeast-2.rds.amazonaws.com',
+    host: 'jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com',
     user: 'postgres',
     password: 'qwer1234',
-    database: 'airline_booking',
+    database: 'airline',
     port: 5432,
     ssl: {
         rejectUnauthorized: false// Aurora 클러스터를 사용하는 경우 SSL 설정이 필요할 수 있음
@@ -17,7 +17,7 @@ pool.connect((err) => {
         console.error('PostgreSQL 연결 실패:', err);
         return;
     }
-    console.log('Search Service가 PostgreSQL에 성공적으로 연결되었습니다.');
+    console.log('flight Service가 PostgreSQL에 성공적으로 연결되었습니다.');
 });
 
 module.exports = pool;

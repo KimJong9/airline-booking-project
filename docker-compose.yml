@@ -1,8 +1,8 @@
 version: '3'
 services:
-  auth:
+  user:
     build:
-      context: ./backend/auth-service
+      context: backend/user-service
     ports:
       - "5000:5000"
     networks:
@@ -16,9 +16,9 @@ services:
     networks:
       - backend-network
 
-  search:
+  flight:
     build:
-      context: ./backend/search-service
+      context: backend/flight-service
     ports:
       - "5001:5001"
     networks:
