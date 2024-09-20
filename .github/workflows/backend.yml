@@ -1,0 +1,58 @@
+name: Build and Push Docker Images to ECR
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push할 때만 트리거
+    paths:
+      - 'backend/**'
+  workflow_dispatch:
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ap-northeast-2
+      ECR_REGISTRY: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com
+      ECR_REPOSITORY: jaws/backend
+      IMAGE_USER: airline-booking-project-user
+      IMAGE_BOOKING: airline-booking-project-booking
+      IMAGE_FLIGHT: airline-booking-project-flight
+      TAG_USER: user
+      TAG_BOOKING: booking
+      TAG_FLIGHT: flight
+      DOCKER_TAG: latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+
+      - name: Build Docker images with Docker Compose
+        run: |
+          docker-compose build
+
+      - name: Tag and Push user image to ECR
+        run: |
+          docker tag ${{ env.IMAGE_USER }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_USER }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_USER }}
+
+      - name: Tag and Push booking image to ECR
+        run: |
+          docker tag ${{ env.IMAGE_BOOKING }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BOOKING }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BOOKING }}
+
+      - name: Tag and Push flight image to ECR
+        run: |
+          docker tag ${{ env.IMAGE_FLIGHT }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_FLIGHT }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_FLIGHT }}
