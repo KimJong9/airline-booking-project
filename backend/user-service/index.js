@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 // 미들웨어 설정
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage',  // 프론트엔드가 실행 중인 주소
+    origin: 'https://api.jawsfly.net',  // 프론트엔드가 실행 중인 주소
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));

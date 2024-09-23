@@ -15,7 +15,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/user/signup', {
+            const response = await axios.post('https://api.jawsfly.net/user/signup', {
                 username,
                 password,
                 email,

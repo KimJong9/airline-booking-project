@@ -17,6 +17,7 @@ spec:
       containers:
         - name: booking-service
           image: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com/jaws/backend:booking
+          imagePullPolicy: Always
           ports:
             - containerPort: 5002
 ---
