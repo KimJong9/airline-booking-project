@@ -5,7 +5,7 @@ metadata:
   labels:
     app: user-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: user-service
@@ -25,7 +25,7 @@ kind: Service
 metadata:
   name: user-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: user-service
   ports:

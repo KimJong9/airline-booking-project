@@ -11,7 +11,7 @@ const Payment = () => {
     const username = decodedToken.username;
     const handleBooking = async () => {
         try {
-            await axios.post('http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5002/booking', {
+            await axios.post('https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/booking', {
                 userId: username,
                 departureFlight: departureFlight.flight_code,
                 arrivalFlight: arrivalFlight.flight_code

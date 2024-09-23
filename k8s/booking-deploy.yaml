@@ -5,7 +5,7 @@ metadata:
   labels:
     app: booking-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: booking-service
@@ -25,7 +25,7 @@ kind: Service
 metadata:
   name: booking-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: booking-service
   ports:

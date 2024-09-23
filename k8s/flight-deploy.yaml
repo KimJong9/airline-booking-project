@@ -5,7 +5,7 @@ metadata:
   labels:
     app: flight-service
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: flight-service
@@ -25,7 +25,7 @@ kind: Service
 metadata:
   name: flight-service
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: flight-service
   ports:

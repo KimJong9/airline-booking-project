@@ -26,14 +26,14 @@ function BookingSection() {
 
     // 출발지 나라 목록 불러오기
     useEffect(() => {
-        axios.get('http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/countries')
+        axios.get('https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/countries')
             .then((response) => setDepartureCountries(response.data))
             .catch((error) => console.error('나라 목록 가져오기 실패:', error));
     }, []);
 
     // 도착지 나라 목록 불러오기
     useEffect(() => {
-        axios.get('http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/countries')
+        axios.get('https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/countries')
             .then((response) => setArrivalCountries(response.data))
             .catch((error) => console.error('나라 목록 가져오기 실패:', error));
     }, []);
@@ -41,7 +41,7 @@ function BookingSection() {
     // 출발지 선택 시 도시 목록 불러오기
     useEffect(() => {
         if (selectedDepartureCountry) {
-            axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/cities/${selectedDepartureCountry}`)
+            axios.get(`https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/cities/${selectedDepartureCountry}`)
                 .then((response) => setDepartureCities(response.data))
                 .catch((error) => console.error('도시 목록 가져오기 실패:', error));
         }
@@ -50,7 +50,7 @@ function BookingSection() {
     // 도착지 선택 시 도시 목록 불러오기
     useEffect(() => {
         if (selectedArrivalCountry) {
-            axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/cities/${selectedArrivalCountry}`)
+            axios.get(`https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/cities/${selectedArrivalCountry}`)
                 .then((response) => setArrivalCities(response.data))
                 .catch((error) => console.error('도시 목록 가져오기 실패:', error));
         }
@@ -59,7 +59,7 @@ function BookingSection() {
     // 출발지 도시 선택 시 공항 목록 불러오기
     useEffect(() => {
         if (selectedDepartureCity) {
-            axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/airports/${selectedDepartureCountry}/${selectedDepartureCity}`)
+            axios.get(`https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/airports/${selectedDepartureCountry}/${selectedDepartureCity}`)
                 .then((response) => setDepartureAirports(response.data))
                 .catch((error) => console.error('공항 목록 가져오기 실패:', error));
         }
@@ -68,7 +68,7 @@ function BookingSection() {
     // 도착지 도시 선택 시 공항 목록 불러오기
     useEffect(() => {
         if (selectedArrivalCity) {
-            axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/airports/${selectedArrivalCountry}/${selectedArrivalCity}`)
+            axios.get(`https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/airports/${selectedArrivalCountry}/${selectedArrivalCity}`)
                 .then((response) => setArrivalAirports(response.data))
                 .catch((error) => console.error('공항 목록 가져오기 실패:', error));
         }
@@ -80,7 +80,7 @@ function BookingSection() {
             return;
         }
 
-        axios.get(`http://JAWS-Airline-ALB-1027478753.ap-northeast-2.elb.amazonaws.com:5001/search/flights`, {
+        axios.get(`https://0aysflxlh8.execute-api.ap-northeast-2.amazonaws.com/jaws-stage/search/flights`, {
             params: {
                 departureAirport: selectedDepartureAirport,
                 departureDate,
