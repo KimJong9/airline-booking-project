@@ -17,5 +17,5 @@ app.use('/booking', bookingRoutes);
 
 
 app.listen(PORT, () => {
-    console.log(`Booking service running on port ${PORT}`);
+    console.log(` A~~~ Booking service running on port ${PORT}`);
 });
