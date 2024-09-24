@@ -27,7 +27,7 @@ const MyPage = () => {
 
                 // 사용자 정보를 DB에서 가져오기
 
-                const response = await axios.get(`${apiUrl}/user/${username}`, {
+                const response = await axios.get(`alb.jawsbackend.net/user/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
