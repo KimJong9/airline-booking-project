@@ -22,7 +22,7 @@ function Navbar({ isLoggedIn, setIsLoggedIn }) {
             {/* 로고 */}
             <div className="logo-container">
                 <img src={require('../assets/logo.png')} alt="Logo" className="logo"/>
-                <span className="logo-text">JAWS</span>
+                <span className="logo-text">JAWS2</span>
             </div>
 
             {/* 네비게이션 링크 */}
