@@ -9,9 +9,15 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(cors({
     origin: 'https://www.jawsfly.net',  // 프론트엔드가 실행 중인 주소
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE','OPTION'],
     credentials: true
 }));
+
+app.options('*', cors({
+    origin: 'https://www.jawsfly.net',
+    credentials: true
+}));
+
 
 // 라우트 연결
 const authRoutes = require('./routes/userRoutes');

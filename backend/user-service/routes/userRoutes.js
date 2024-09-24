@@ -19,6 +19,6 @@ router.post('/find-password', userController.findPassword);
 
 router.post('/update-password', userController.updatePassword);
 
-router.get('/user/:username', userController.getUserInfo);
+router.get(':username', userController.getUserInfo);
 
 module.exports = router;
