@@ -15,7 +15,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://alb.heroic.today/user/signup', {
+            const response = await axios.post('http://alb.heroic.today/user/signup', {
                 username,
                 password,
                 email,
