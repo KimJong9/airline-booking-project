@@ -15,13 +15,13 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://alb.heroic.today/user/signup', {
+            const response = await axios.post('https://alb.heroic.today/user/signup',{withCredentials: true }, {
                 username,
                 password,
                 email,
                 full_name: fullName, // RDS 테이블 컬럼에 맞춘 이름
                 phone_number: phoneNumber // phone_number 추가
-            },{withCredentials: true })
+            })
             if (response.status === 201) {
                 navigate("/login");
             } else {
