@@ -18,9 +18,9 @@ jobs:
       IMAGE_USER: airline-booking-project_user
       IMAGE_BOOKING: airline-booking-project_booking
       IMAGE_FLIGHT: airline-booking-project_flight
-      TAG_USER: user1
-      TAG_BOOKING: booking1
-      TAG_FLIGHT: flight1
+      TAG_USER: user
+      TAG_BOOKING: booking
+      TAG_FLIGHT: flight
       DOCKER_TAG: latest
 
     steps:
