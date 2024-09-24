@@ -26,14 +26,14 @@ function BookingSection() {
 
     // 출발지 나라 목록 불러오기
     useEffect(() => {
-        axios.get('alb.jawsbackend.net/flight/countries')
+        axios.get('http://alb.jawsbackend.net/flight/countries')
             .then((response) => setDepartureCountries(response.data))
             .catch((error) => console.error('나라 목록 가져오기 실패:', error));
     }, []);
 
     // 도착지 나라 목록 불러오기
     useEffect(() => {
-        axios.get('alb.jawsbackend.net/flight/countries')
+        axios.get('http://alb.jawsbackend.net/flight/countries')
             .then((response) => setArrivalCountries(response.data))
             .catch((error) => console.error('나라 목록 가져오기 실패:', error));
     }, []);
@@ -41,7 +41,7 @@ function BookingSection() {
     // 출발지 선택 시 도시 목록 불러오기
     useEffect(() => {
         if (selectedDepartureCountry) {
-            axios.get(`alb.jawsbackend.net/flight/cities/${selectedDepartureCountry}`)
+            axios.get(`http://alb.jawsbackend.net/flight/cities/${selectedDepartureCountry}`)
                 .then((response) => setDepartureCities(response.data))
                 .catch((error) => console.error('도시 목록 가져오기 실패:', error));
         }
@@ -50,7 +50,7 @@ function BookingSection() {
     // 도착지 선택 시 도시 목록 불러오기
     useEffect(() => {
         if (selectedArrivalCountry) {
-            axios.get(`alb.jawsbackend.net/flight/cities/${selectedArrivalCountry}`)
+            axios.get(`http://alb.jawsbackend.net/flight/cities/${selectedArrivalCountry}`)
                 .then((response) => setArrivalCities(response.data))
                 .catch((error) => console.error('도시 목록 가져오기 실패:', error));
         }
@@ -59,7 +59,7 @@ function BookingSection() {
     // 출발지 도시 선택 시 공항 목록 불러오기
     useEffect(() => {
         if (selectedDepartureCity) {
-            axios.get(`alb.jawsbackend.net/flight/airports/${selectedDepartureCountry}/${selectedDepartureCity}`)
+            axios.get(`http://alb.jawsbackend.net/flight/airports/${selectedDepartureCountry}/${selectedDepartureCity}`)
                 .then((response) => setDepartureAirports(response.data))
                 .catch((error) => console.error('공항 목록 가져오기 실패:', error));
         }
@@ -68,7 +68,7 @@ function BookingSection() {
     // 도착지 도시 선택 시 공항 목록 불러오기
     useEffect(() => {
         if (selectedArrivalCity) {
-            axios.get(`alb.jawsbackend.net/flight/airports/${selectedArrivalCountry}/${selectedArrivalCity}`)
+            axios.get(`http://alb.jawsbackend.net/flight/airports/${selectedArrivalCountry}/${selectedArrivalCity}`)
                 .then((response) => setArrivalAirports(response.data))
                 .catch((error) => console.error('공항 목록 가져오기 실패:', error));
         }
@@ -80,7 +80,7 @@ function BookingSection() {
             return;
         }
 
-        axios.get(`alb.jawsbackend.net/flight/flights`, {
+        axios.get(`http://alb.jawsbackend.net/flight/flights`, {
             params: {
                 departureAirport: selectedDepartureAirport,
                 departureDate,

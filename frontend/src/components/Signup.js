@@ -15,7 +15,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('alb.jawsbackend.net/user/signup', {
+            const response = await axios.post('http://alb.jawsbackend.net/user/signup', {
                 username,
                 password,
                 email,

@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const backendUrl = 'https://alb.jawsbackend.net';
+const backendUrl = 'https://http://alb.jawsbackend.net';
 root.render(
   <React.StrictMode>
     <App backendUrl={backendUrl}/>
