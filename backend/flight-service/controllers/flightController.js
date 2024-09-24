@@ -29,3 +29,21 @@ exports.getFlightsInfo = async (req, res) => {
         res.status(500).json({ error: "비행편을 찾는 중 문제가 발생했습니다." });
     }
 };
+
+exports.getCountries = async (req, res) => {
+    const result = await pool.query('SELECT DISTINCT country_name FROM country_city');
+    res.json(result.rows);
+};
+
+exports.getCities = async (req, res) => {
+    const { country_name } = req.params;
+    const result = await pool.query('SELECT city_name FROM country_city WHERE country_name = $1', [country_name]);
+    res.json(result.rows);
+};
+
+exports.getAirports = async (req, res) => {
+    const { country_name, city_name } = req.params;
+    const result = await pool.query('SELECT airport_id, airport_name FROM airport WHERE country_name = $1 AND city_name = $2', [country_name, city_name]);
+    res.json(result.rows);
+};
+

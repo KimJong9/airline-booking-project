@@ -13,7 +13,7 @@ function Login(setIsLoggedIn, IsLoggedIn=false) {
         e.preventDefault(); // 폼 제출 시 새로고침 방지
 
         try {
-            const response = await axios.post("https://api.jawsfly.net/auth/login", {
+            const response = await axios.post("${apiUrl}/user/login", {
                 username,
                 password,
             });

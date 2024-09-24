@@ -11,7 +11,7 @@ const Payment = () => {
     const username = decodedToken.username;
     const handleBooking = async () => {
         try {
-            await axios.post('https://api.jawsfly.net/booking', {
+            await axios.post('${apiUrl}/booking', {
                 userId: username,
                 departureFlight: departureFlight.flight_code,
                 arrivalFlight: arrivalFlight.flight_code

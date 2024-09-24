@@ -5,9 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const backendUrl = 'https://alb.jawsbackend.net';
 root.render(
   <React.StrictMode>
-    <App />
+    <App backendUrl={backendUrl}/>
   </React.StrictMode>
 );
 
