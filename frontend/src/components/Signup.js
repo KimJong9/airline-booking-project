@@ -21,7 +21,7 @@ function Signup() {
                 email,
                 full_name: fullName, // RDS 테이블 컬럼에 맞춘 이름
                 phone_number: phoneNumber // phone_number 추가
-            })
+            },{withCredentials: true })
             if (response.status === 201) {
                 navigate("/login");
             } else {
