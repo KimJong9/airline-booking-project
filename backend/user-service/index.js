@@ -20,5 +20,5 @@ app.use('/user', authRoutes);  // /api로 시작하는 요청은 authRoutes에�
 
 // 서버 시작
 app.listen(PORT, () => {
-    console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
+    console.log(`user 서버가 포트 ${PORT}에서 실행 중입니다.`);
 });
