@@ -87,7 +87,7 @@ function BookingSection() {
                 arrivalAirport: selectedArrivalAirport,
                 arrivalDate
             }
-        },{withCredentials: true })
+        })
             .then((response) => {
                 const flightData = response.data;
                 console.log(flightData);

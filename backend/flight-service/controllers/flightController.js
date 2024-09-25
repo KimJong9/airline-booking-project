@@ -11,7 +11,6 @@ exports.getFlightsInfo = async (req, res) => {
             "SELECT * FROM flight WHERE departure_airport_id = $1 AND destination_airport_id = $2 AND departure_date = $3",
             [departureAirport, arrivalAirport, departureDate]
         );
-
         // 2. 도착 공항에서 출발 공항으로 돌아오는 비행편 조회
         const returnFlights = await pool.query(
             "SELECT * FROM flight WHERE departure_airport_id = $1 AND destination_airport_id = $2 AND departure_date = $3",
