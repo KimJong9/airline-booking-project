@@ -80,14 +80,14 @@ function BookingSection() {
             return;
         }
 
-        axios.get(`https://alb.heroic.today/flight/flights`,{withCredentials: true }, {
+        axios.get(`https://alb.heroic.today/flight/flights`, {
             params: {
                 departureAirport: selectedDepartureAirport,
                 departureDate,
                 arrivalAirport: selectedArrivalAirport,
                 arrivalDate
             }
-        })
+        },{withCredentials: true })
             .then((response) => {
                 const flightData = response.data;
                 console.log(flightData);
