@@ -3,6 +3,7 @@ const pool = require('../config/db');
 // 사용자 정보 검색
 
 exports.getFlightsInfo = async (req, res) => {
+    console.log(req.query);
     const { departureAirport, departureDate, arrivalAirport, arrivalDate } = req.query;
     console.log(arrivalAirport,departureAirport, arrivalAirport, departureDate);
     try {
