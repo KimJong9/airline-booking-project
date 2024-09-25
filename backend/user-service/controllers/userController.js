@@ -144,9 +144,9 @@ const updatePassword = async (req, res) => {
 };
 
 const getUserInfo = async (req, res) => {
-    console.log(req);
+    console.log("userInfo");
     const { username } = req.params;
-
+    console.log(username);
     try {
         const result = await pool.query('SELECT full_name, username, email, phone_number FROM user_account WHERE username = $1', [username]);
         if (result.rows.length === 0) {
