@@ -4,7 +4,7 @@ const pool = require('../config/db');
 
 exports.getFlightsInfo = async (req, res) => {
     const { departureAirport, departureDate, arrivalAirport, arrivalDate } = req.query;
-
+    console.log(arrivalAirport,departureAirport, arrivalAirport, departureDate);
     try {
         // 1. 출발 공항에서 도착 공항으로 가는 비행편 조회
         const outboundFlights = await pool.query(
