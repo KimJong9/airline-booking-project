@@ -5,8 +5,6 @@ const pool = require('../config/db');
 // 로그인
 const login = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body);
-    console.log(username, password);
     try {
         // 회원 정보 조회
         const query = 'SELECT * FROM user_account WHERE username = $1';
@@ -146,7 +144,7 @@ const updatePassword = async (req, res) => {
 };
 
 const getUserInfo = async (req, res) => {
-    console.log(req.params);
+    console.log(req);
     const { username } = req.params;
 
     try {
