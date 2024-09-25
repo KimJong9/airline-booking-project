@@ -16,7 +16,7 @@ function Login(setIsLoggedIn, IsLoggedIn=false) {
             const response = await axios.post("https://alb.heroic.today/user/login", {
                 username,
                 password,
-            },{withCredentials: true });
+            });
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 // 로그인 성공 시 페이지 이동

@@ -15,7 +15,7 @@ const Payment = () => {
                 userId: username,
                 departureFlight: departureFlight.flight_code,
                 arrivalFlight: arrivalFlight.flight_code
-            },{withCredentials: true });
+            });
             alert('Booking successful!');
         } catch (error) {
             console.error('Booking failed:', error);
