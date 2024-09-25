@@ -146,6 +146,7 @@ const updatePassword = async (req, res) => {
 };
 
 const getUserInfo = async (req, res) => {
+    console.log(req.params);
     const { username } = req.params;
 
     try {
