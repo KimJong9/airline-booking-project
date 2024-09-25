@@ -26,11 +26,11 @@ const MyPage = () => {
                 const username = decodedToken.username; // 토큰에 담긴 사용자 아이디
 
                 // 사용자 정보를 DB에서 가져오기
-
+                console.log(username);
                 const response = await axios.get(`https://alb.heroic.today/user/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-
+                console.log(response.data);
                 setUserData(response.data); // 가져온 데이터 저장
             } catch (error) {
                 console.error('사용자 정보 가져오기 실패:', error);
