@@ -12,10 +12,13 @@ exports.booking = async (req, res) => {
             `INSERT INTO booking (username, flight_code) VALUES ($1, $2), ($1, $3) RETURNING booking_id`,
             [userId, departureFlight, arrivalFlight]
         );
-        const bookingID = response.rows.map(row => row.booking_id);
-        console.log(bookingID);
-        sqs(bookingID[0],customer_email);
-        sqs(bookingID[1],customer_email);
+        const bookingIDs = response.rows.map(row => row.booking_id);
+
+        // 각 booking_id에 대해 SQS로 메시지를 전송
+        for (const bookingID of bookingIDs) {
+            await sqs(bookingID, customer_email);
+        }
+
         return res.status(201).json({ message: 'Booking successful!'});
     } catch (error) {
         console.error('Error booking flight:', error);
