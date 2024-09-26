@@ -22,7 +22,6 @@ const Payment = () => {
                 setEmail(userInfo.email);
             } catch (error) {
                 console.error('사용자 정보 가져오기 실패:', error);
-                setError('사용자 정보를 가져오는 데 실패했습니다.');
             }
         };
         fetchUserInfo();
