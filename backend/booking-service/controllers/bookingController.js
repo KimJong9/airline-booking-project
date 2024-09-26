@@ -29,14 +29,14 @@ exports.booking = async (req, res) => {
 
 const sqs = async (req, res) => {
     console.log(req.body);
-    const { bookingId, customer_email } = req.body; // 클라이언트로부터 받은 booking_id
+    const { bookingID, customer_email } = req.body; // 클라이언트로부터 받은 booking_id
     const bookingDate = new Date().toISOString(); // booking_date는 현재 시간으로 설정
 
     try {
         // booking_id로 데이터베이스에서 예약 정보 조회
         const result = await pool.query(
             `SELECT flight_code, username, booking_id FROM booking WHERE booking_id = $1`,
-            [bookingId]
+            [bookingID]
         );
 
         if (result.rows.length === 0) {
