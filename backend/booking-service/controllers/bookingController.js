@@ -13,9 +13,10 @@ exports.booking = async (req, res) => {
             [userId, departureFlight, arrivalFlight]
         );
         const bookingIDs = response.rows.map(row => row.booking_id);
-
+        console.log(bookingIDs);
         // 각 booking_id에 대해 SQS로 메시지를 전송
         for (const bookingID of bookingIDs) {
+            console.log(bookingID);
             await sqs(bookingID, customer_email);
         }
 
