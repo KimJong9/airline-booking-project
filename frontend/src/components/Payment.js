@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios"; // For sending the request
 
@@ -9,12 +9,31 @@ const Payment = () => {
     const token = localStorage.getItem('token');
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
     const username = decodedToken.username;
+
+    const [email, setEmail] = useState(''); // 이메일 정보를 저장할 state
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                // 백엔드의 getUserInfo API 호출
+                const response = await axios.get(`https://alb.heroic.today/user/${username}`);
+                const userInfo = response.data;
+
+                // 이메일 정보를 state에 저장
+                setEmail(userInfo.email);
+            } catch (error) {
+                console.error('사용자 정보 가져오기 실패:', error);
+                setError('사용자 정보를 가져오는 데 실패했습니다.');
+            }
+        };
+        fetchUserInfo();
+    }, [username]);
     const handleBooking = async () => {
         try {
             await axios.post('https://alb.heroic.today/booking', {
                 userId: username,
                 departureFlight: departureFlight.flight_code,
-                arrivalFlight: arrivalFlight.flight_code
+                arrivalFlight: arrivalFlight.flight_code,
+                customer_email: email
             },{withCredentials: true });
             alert('Booking successful!');
         } catch (error) {
