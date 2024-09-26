@@ -9,7 +9,7 @@ exports.booking = async (req, res) => {
     try {
         // Insert booking into the 'booking' table
         const response = await pool.query(
-            `INSERT INTO booking (username, flight_code) VALUES ($1, $2), ($1, $3)`,
+            `INSERT INTO booking (username, flight_code) VALUES ($1, $2), ($1, $3) RETURNING booking_id`,
             [userId, departureFlight, arrivalFlight]
         );
         const bookingID = response.rows.map(row => row.booking_id);
