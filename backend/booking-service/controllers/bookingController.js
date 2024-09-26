@@ -55,10 +55,9 @@ const sqs = async (bookingId, customer_email) => {
         // SQS로 메시지 전송
         await sendMessageToSQS(messageBody);
 
-        return res.status(200).json({ message: "Message sent successfully to SQS" });
+        console.log("Message sent successfully to SQS for bookingId:", bookingId);
     } catch (error) {
         console.error('Error processing booking:', error);
-        res.status(500).json({ message: 'Failed to process booking' });
     }
 }
 
