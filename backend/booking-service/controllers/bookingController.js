@@ -13,6 +13,7 @@ exports.booking = async (req, res) => {
             [userId, departureFlight, arrivalFlight]
         );
         const bookingID = response.rows.map(row => row.booking_id);
+        console.log(bookingID);
         sqs(bookingID,customer_email);
         return res.status(201).json({ message: 'Booking successful!'});
     } catch (error) {
