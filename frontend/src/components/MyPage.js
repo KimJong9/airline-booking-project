@@ -44,7 +44,7 @@ const MyPage = () => {
                     bookingResponse.data.map(async (booking) => {
                         const flightResponse = await axios.get(`https://alb.heroic.today/flights/${booking.flight_code}`, {
                             headers: { Authorization: `Bearer ${token}` },
-                        });
+                        },{withCredentials: true });
                         return {
                             ...booking,
                             flight_info: flightResponse.data // 항공편 정보 추가
