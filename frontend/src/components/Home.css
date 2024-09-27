@@ -5,6 +5,7 @@
     min-height: 100vh;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* 공백이 생기지 않도록 설정 */
 }
 
 /* 중앙 로고 이미지 영역 */
