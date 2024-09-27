@@ -8,7 +8,7 @@ function Home() {
         <div className="home-container">
             {/* 중앙 로고 이미지 */}
             <div className="home-logo">
-                <img src={require('../assets/logo.png')} alt="logo" className="logo-img" />
+                <img src={require('../assets/home.png')} alt="logo" className="home-img" />
             </div>
         </div>
     );
