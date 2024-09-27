@@ -50,12 +50,24 @@ exports.getAirports = async (req, res) => {
 exports.getBookingInfo = async (req, res) => {
     const { flight_code } = req.params; // flight_code를 URL 파라미터로 받음
     try {
-        const result = await pool.query(
-            'SELECT departure_airport_id, destination_airport_id, departure_time FROM flight WHERE flight_code = $1',
-            [flight_code]
-        );
+        // flight 테이블과 airport 테이블을 조인하여 공항 이름을 가져옴
+        const query = `
+            SELECT 
+                f.departure_airport_id,
+                f.destination_airport_id,
+                f.departure_time,
+                da.airport_name AS departure_airport_name,
+                aa.airport_name AS destination_airport_name
+            FROM flight f
+            JOIN airport da ON f.departure_airport_id = da.airport_id
+            JOIN airport aa ON f.destination_airport_id = aa.airport_id
+            WHERE f.flight_code = $1
+        `;
+
+        const result = await pool.query(query, [flight_code]);
+
         if (result.rows.length > 0) {
-            res.json(result.rows[0]); // 단일 항공편 정보 반환
+            res.json(result.rows[0]); // 단일 항공편 정보 및 공항 이름 반환
         } else {
             res.status(404).json({ message: '해당 항공편 정보를 찾을 수 없습니다.' });
         }
@@ -64,3 +76,4 @@ exports.getBookingInfo = async (req, res) => {
         res.status(500).json({ message: '서버 오류가 발생했습니다.' });
     }
 };
+
