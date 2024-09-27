@@ -33,6 +33,9 @@
     font-size: 16px;
     color: #333;
     transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* 항목 hover 효과 */
@@ -40,8 +43,52 @@
     background-color: #e7f3ff;
 }
 
-/* 공백 처리 */
+/* 선택 버튼 스타일 */
+.list-container button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.list-container button:hover {
+    background-color: #0056b3;
+}
+
+/* 선택된 출발지와 도착지 표시 */
+.list-container h3 {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #333;
+}
+
 .list-container p {
+    color: #555;
+    font-size: 16px;
+}
+
+/* 결제 버튼 스타일 */
+.list-container .payment-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.list-container .payment-button:hover {
+    background-color: #218838;
+}
+
+/* 공백 처리 */
+.list-container .no-flights {
     color: #888;
     font-size: 16px;
 }

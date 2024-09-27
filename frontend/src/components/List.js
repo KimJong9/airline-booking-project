@@ -1,18 +1,45 @@
-import './List.css'
-import React, { useState } from "react";
+import './List.css';
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const List = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { flights } = location.state || {};
 
-    // 안전하게 outboundFlights와 returnFlights를 구조분해 할당
     const outboundFlights = flights?.outboundFlights || [];
     const returnFlights = flights?.returnFlights || [];
 
     const [selectedDepartureFlight, setSelectedDepartureFlight] = useState(null);
     const [selectedArrivalFlight, setSelectedArrivalFlight] = useState(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+    const [showPopup, setShowPopup] = useState(false);   // 팝업 상태 관리
+
+    // 로그인 상태 확인 (토큰 확인)
+    useEffect(() => {
+        const checkLoginStatus = () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('토큰이 없습니다.');
+                setIsLoggedIn(false);
+                return;
+            }
+
+            try {
+                // 토큰이 있으면 JWT 토큰 확인
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                const username = decodedToken.username;
+                console.log('로그인된 사용자:', username);
+                setIsLoggedIn(true); // 로그인 상태 설정
+            } catch (error) {
+                console.error('토큰 확인 실패:', error);
+                setIsLoggedIn(false);
+            }
+        };
+
+        checkLoginStatus();
+    }, []);
 
     const handleSelectDeparture = (flight) => {
         setSelectedDepartureFlight(flight);
@@ -23,7 +50,11 @@ const List = () => {
     };
 
     const handlePayment = () => {
-        if (selectedDepartureFlight && selectedArrivalFlight) {
+        if (!isLoggedIn) {
+            // 로그인이 안되어 있으면 팝업 표시
+            setShowPopup(true);
+        } else if (selectedDepartureFlight && selectedArrivalFlight) {
+            // 로그인이 되어 있으면 결제 페이지로 이동
             navigate('/payment', {
                 state: {
                     departureFlight: selectedDepartureFlight,
@@ -33,8 +64,9 @@ const List = () => {
         }
     };
 
-    console.log('Outbound Flights:', outboundFlights); // 디버깅용 로그
-    console.log('Return Flights:', returnFlights);   // 디버깅용 로그
+    const closePopup = () => {
+        setShowPopup(false);
+    };
 
     return (
         <div>
@@ -66,7 +98,6 @@ const List = () => {
                 <p>오는 비행편이 없습니다.</p>
             )}
 
-            {/* 선택된 출발지와 도착지 표시 */}
             <div>
                 <div>
                     <h3>선택한 출발지</h3>
@@ -87,9 +118,19 @@ const List = () => {
                 </div>
             </div>
 
-            {/* 결제 버튼 (출발지와 도착지 모두 선택해야만 표시) */}
             {selectedDepartureFlight && selectedArrivalFlight && (
                 <button onClick={handlePayment}>결제</button>
+            )}
+
+            {/* 팝업 표시 */}
+            {showPopup && (
+                <div className="popup">
+                    <div className="popup-content">
+                        <p>로그인 후 결제가 가능합니다. 로그인 페이지로 이동하시겠습니까?</p>
+                        <button onClick={() => navigate('/login')}>로그인</button>
+                        <button onClick={closePopup}>취소</button>
+                    </div>
+                </div>
             )}
         </div>
     );
