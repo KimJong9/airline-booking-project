@@ -1,3 +1,4 @@
+/* 전체 컨테이너 */
 .mypage-container {
     display: flex;
     flex-direction: column;
@@ -8,6 +9,7 @@
     padding: 20px;
 }
 
+/* 프로필 정보 및 비밀번호 변경, 예약 정보 카드 */
 .profile-info, .password-change, .booking-info {
     background-color: white;
     padding: 20px;
@@ -17,12 +19,14 @@
     margin-bottom: 20px;
 }
 
+/* 텍스트 스타일 */
 .profile-info p, .password-change input, .booking-info p {
     font-size: 16px;
     margin: 10px 0;
     color: #333;
 }
 
+/* 인풋 필드 및 리스트 스타일 */
 .password-change input, .booking-info ul {
     width: 100%;
     padding: 10px;
@@ -30,6 +34,7 @@
     border: 1px solid #ccc;
 }
 
+/* 버튼 스타일 */
 .password-change button {
     width: 100%;
     padding: 12px;
@@ -45,6 +50,7 @@
     background-color: #0056b3;
 }
 
+/* 예약 정보 리스트 스타일 */
 .booking-info ul {
     list-style-type: none;
     padding: 0;
@@ -57,11 +63,44 @@
     border-radius: 4px;
 }
 
+/* 예약 정보 항목 */
+.booking-info li p {
+    margin: 5px 0;
+}
+
+/* 페이지네이션 스타일 */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+    background-color: #0056b3;
+}
+
+.pagination button.active {
+    background-color: #0056b3;
+}
+
+/* 로고 스타일 */
 .mypage-logo img {
     max-width: 100px;
     margin-top: 20px;
 }
 
+/* 에러 메시지 */
 .message {
     color: red;
     margin-top: 10px;

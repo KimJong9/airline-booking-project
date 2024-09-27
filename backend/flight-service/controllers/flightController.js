@@ -47,3 +47,20 @@ exports.getAirports = async (req, res) => {
     res.json(result.rows);
 };
 
+exports.getBookingInfo = async (req, res) => {
+    const { flight_code } = req.params; // flight_code를 URL 파라미터로 받음
+    try {
+        const result = await pool.query(
+            'SELECT departure_airport_id, destination_airport_id, departure_time FROM flight WHERE flight_code = $1',
+            [flight_code]
+        );
+        if (result.rows.length > 0) {
+            res.json(result.rows[0]); // 단일 항공편 정보 반환
+        } else {
+            res.status(404).json({ message: '해당 항공편 정보를 찾을 수 없습니다.' });
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+    }
+};
