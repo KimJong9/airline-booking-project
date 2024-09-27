@@ -126,9 +126,9 @@ const MyPage = () => {
                         {paginatedBookings.map((booking, index) => (
                             <li key={index}>
                                 <p>항공편: {booking.flight_code}</p>
-                                <p>출발지: {booking.departure_airport}</p>
-                                <p>도착지: {booking.arrival_airport}</p>
-                                <p>출발 시간: {booking.departure_time}</p>
+                                <p>출발지: {booking.flight_info.departure_airport}</p>
+                                <p>도착지: {booking.flight_info.arrival_airport}</p>
+                                <p>출발 시간: {booking.flight_info.departure_time}</p>
                             </li>
                         ))}
                     </ul>

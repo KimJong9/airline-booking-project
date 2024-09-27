@@ -9,12 +9,12 @@ exports.getFlightsInfo = async (req, res) => {
     try {
         // 1. 출발 공항에서 도착 공항으로 가는 비행편 조회
         const outboundFlights = await pool.query(
-            "SELECT * FROM flight WHERE departure_airport_id = $1 AND destination_airport_id = $2 AND departure_date = $3",
+            "SELECT * FROM flight WHERE departure_airport = $1 AND destination_airport = $2 AND departure_date = $3",
             [departureAirport, arrivalAirport, departureDate]
         );
         // 2. 도착 공항에서 출발 공항으로 돌아오는 비행편 조회
         const returnFlights = await pool.query(
-            "SELECT * FROM flight WHERE departure_airport_id = $1 AND destination_airport_id = $2 AND departure_date = $3",
+            "SELECT * FROM flight WHERE departure_airport = $1 AND destination_airport = $2 AND departure_date = $3",
             [arrivalAirport, departureAirport, arrivalDate]
         );
         console.log('Outbound Flights:', outboundFlights.rows);
@@ -51,7 +51,7 @@ exports.getBookingInfo = async (req, res) => {
     const { flight_code } = req.params; // flight_code를 URL 파라미터로 받음
     try {
         const result = await pool.query(
-            'SELECT departure_airport_id, destination_airport_id, departure_time FROM flight WHERE flight_code = $1',
+            'SELECT departure_airport, destination_airport, departure_time FROM flight WHERE flight_code = $1',
             [flight_code]
         );
         if (result.rows.length > 0) {

@@ -74,7 +74,7 @@ const List = () => {
                 <ul>
                     {outboundFlights.map((flight, index) => (
                         <li key={index}>
-                            {flight.flight_code} | {flight.departure_airport_id} -> {flight.destination_airport_id} | 출발 시간: {flight.departure_time}
+                            {flight.flight_code} | {flight.departure_airport} -> {flight.destination_airport} | 출발 시간: {flight.departure_time}
                             <button onClick={() => handleSelectDeparture(flight)}>선택</button>
                         </li>
                     ))}
@@ -88,7 +88,7 @@ const List = () => {
                 <ul>
                     {returnFlights.map((flight, index) => (
                         <li key={index}>
-                            {flight.flight_code} | {flight.departure_airport_id} -> {flight.destination_airport_id} | 출발 시간: {flight.departure_time}
+                            {flight.flight_code} | {flight.departure_airport} -> {flight.destination_airport} | 출발 시간: {flight.departure_time}
                             <button onClick={() => handleSelectArrival(flight)}>선택</button>
                         </li>
                     ))}
@@ -101,7 +101,7 @@ const List = () => {
                 <div>
                     <h3>선택한 출발지</h3>
                     {selectedDepartureFlight ? (
-                        <p>{selectedDepartureFlight.flight_code} | {selectedDepartureFlight.departure_airport_id} -> {selectedDepartureFlight.destination_airport_id} | 출발 시간: {selectedDepartureFlight.departure_time}</p>
+                        <p>{selectedDepartureFlight.flight_code} | {selectedDepartureFlight.departure_airport} -> {selectedDepartureFlight.destination_airport} | 출발 시간: {selectedDepartureFlight.departure_time}</p>
                     ) : (
                         <p>출발지를 선택하세요</p>
                     )}
@@ -110,7 +110,7 @@ const List = () => {
                 <div>
                     <h3>선택한 도착지</h3>
                     {selectedArrivalFlight ? (
-                        <p>{selectedArrivalFlight.flight_code} | {selectedArrivalFlight.departure_airport_id} -> {selectedArrivalFlight.destination_airport_id} | 출발 시간: {selectedArrivalFlight.departure_time}</p>
+                        <p>{selectedArrivalFlight.flight_code} | {selectedArrivalFlight.departure_airport} -> {selectedArrivalFlight.destination_airport} | 출발 시간: {selectedArrivalFlight.departure_time}</p>
                     ) : (
                         <p>도착지를 선택하세요</p>
                     )}
