@@ -51,7 +51,7 @@ exports.getBookingInfo = async (req, res) => {
     const { flight_code } = req.params; // flight_code를 URL 파라미터로 받음
     try {
         const result = await pool.query(
-            'SELECT departure_airport, destination_airport, departure_time FROM flight WHERE flight_code = $1',
+            'SELECT departure_airport_id, destination_airport_id, departure_time FROM flight WHERE flight_code = $1',
             [flight_code]
         );
         if (result.rows.length > 0) {
