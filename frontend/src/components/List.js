@@ -74,7 +74,7 @@ const List = () => {
                 <ul>
                     {outboundFlights.map((flight, index) => (
                         <li key={index}>
-                            {flight.flight_code} | {flight.departure_airport} -> {flight.destination_airport} | 출발 시간: {flight.departure_time}
+                            {flight.flight_code} | {flight.departure_airport_id} -> {flight.destination_airport_id} | 출발 시간: {flight.departure_time}
                             <button onClick={() => handleSelectDeparture(flight)}>선택</button>
                         </li>
                     ))}

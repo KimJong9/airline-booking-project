@@ -54,8 +54,8 @@ const MyPage = () => {
 
                 // 페이지네이션 계산
                 setTotalPages(Math.ceil(bookingsWithFlightInfo.length / limit));
-                console.log(bookingsWithFlightInfo);
                 setBookings(bookingsWithFlightInfo);
+
             } catch (error) {
                 console.error('사용자 정보 및 예약 정보 가져오기 실패:', error);
             }
@@ -126,8 +126,8 @@ const MyPage = () => {
                         {paginatedBookings.map((booking, index) => (
                             <li key={index}>
                                 <p>항공편: {booking.flight_code}</p>
-                                <p>출발지: {booking.flight_info.departure_airport}</p>
-                                <p>도착지: {booking.flight_info.arrival_airport}</p>
+                                <p>출발지: {booking.flight_info.departure_airport_id}</p>
+                                <p>도착지: {booking.flight_info.arrival_airport_id}</p>
                                 <p>출발 시간: {booking.flight_info.departure_time}</p>
                             </li>
                         ))}

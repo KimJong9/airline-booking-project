@@ -13,8 +13,8 @@ CREATE TABLE country_city (
 
 -- 공항 정보 테이블
 CREATE TABLE airport (
-    airport_id SERIAL,          -- 숫자 기반의 고유 식별자
-    airport_name VARCHAR(255) PRIMARY KEY,
+    airport_id SERIAL PRIMARY KEY,          -- 숫자 기반의 고유 식별자
+    airport_name VARCHAR(255) NOT NULL,
     city_name VARCHAR(255) NOT NULL,
     country_name VARCHAR(255) NOT NULL,
     FOREIGN KEY (country_name, city_name) REFERENCES country_city(country_name, city_name) ON DELETE CASCADE
@@ -23,8 +23,8 @@ CREATE TABLE airport (
 -- 항공 정보 테이블
 CREATE TABLE flight (
     flight_code VARCHAR(255) PRIMARY KEY,  -- 고유 비행 코드
-    departure_airport varchar(255) NOT NULL,     -- 출발 공항 ID
-    destination_airport varchar(255) NOT NULL,   -- 도착 공항 ID
+    departure_airport_id INT NOT NULL,     -- 출발 공항 ID
+    destination_airport_id INT NOT NULL,   -- 도착 공항 ID
     departure_date DATE NOT NULL,          -- 출발 날짜
     departure_time TIME NOT NULL,          -- 출발 시간
     arrival_date DATE NOT NULL,            -- 도착 날짜
@@ -32,8 +32,8 @@ CREATE TABLE flight (
     total_seats INT NOT NULL,              -- 전체 좌석 수
     remaining_seats INT NOT NULL,          -- 남은 좌석 수
     price DECIMAL(10, 2) NOT NULL,         -- 가격
-    FOREIGN KEY (departure_airport) REFERENCES airport(airport_name) ON DELETE CASCADE,
-    FOREIGN KEY (destination_airport) REFERENCES airport(airport_name) ON DELETE CASCADE
+    FOREIGN KEY (departure_airport_id) REFERENCES airport(airport_id) ON DELETE CASCADE,
+    FOREIGN KEY (destination_airport_id) REFERENCES airport(airport_id) ON DELETE CASCADE
 );
 
 INSERT INTO country_city (country_name, city_name) VALUES
@@ -49,13 +49,13 @@ INSERT INTO airport (airport_name, city_name, country_name) VALUES
     ('Narita Airport', 'Tokyo', 'Japan');
 
 -- 출발 공항에서 도착 공항으로 가는 비행편 (2024-09-16)
-INSERT INTO flight (flight_code, departure_airport, destination_airport, departure_date, departure_time, arrival_date, arrival_time, total_seats, remaining_seats, price)
+INSERT INTO flight (flight_code, departure_airport_id, destination_airport_id, departure_date, departure_time, arrival_date, arrival_time, total_seats, remaining_seats, price)
 VALUES
-    ('ICN-NRT-001', 'Incheon Airport', 'JFK Airport', '2024-09-16', '10:00:00', '2024-09-16', '12:30:00', 180, 50, 300.00),  -- 인천 -> 도쿄
-    ('ICN-SIN-002', 'Incheon Airport', 'Narita Airport', '2024-09-16', '14:00:00', '2024-09-16', '18:00:00', 200, 30, 450.00),  -- 인천 -> 싱가포르
+    ('ICN-NRT-001', 1, 2, '2024-09-16', '10:00:00', '2024-09-16', '12:30:00', 180, 50, 300.00),  -- 인천 -> 도쿄
+    ('ICN-SIN-002', 1, 3, '2024-09-16', '14:00:00', '2024-09-16', '18:00:00', 200, 30, 450.00),  -- 인천 -> 싱가포르
 
 -- 도착 공항에서 출발 공항으로 돌아오는 비행편 (2024-09-19)
-    ('NRT-ICN-003', 'JFK Airport', 'Incheon Airport', '2024-09-19', '09:00:00', '2024-09-19', '11:30:00', 180, 40, 320.00),  -- 도쿄 -> 인천
-    ('SIN-ICN-004', 'Narita Airport', 'Incheon Airport', '2024-09-19', '17:00:00', '2024-09-19', '21:00:00', 200, 20, 470.00);  -- 싱가포르 -> 인천
+    ('NRT-ICN-003', 2, 1, '2024-09-19', '09:00:00', '2024-09-19', '11:30:00', 180, 40, 320.00),  -- 도쿄 -> 인천
+    ('SIN-ICN-004', 3, 1, '2024-09-19', '17:00:00', '2024-09-19', '21:00:00', 200, 20, 470.00);  -- 싱가포르 -> 인천
 
 
