@@ -28,9 +28,10 @@ const booking = async (req, res) => {
 };
 
 const getInfo = async (req, res) => {
-    const { userid } = req.params;
+    const { username } = req.params;
+    console.log(username);
     try {
-        const result = await pool.query('SELECT flight_code FROM booking WHERE username = $1', [userid]);
+        const result = await pool.query('SELECT flight_code FROM booking WHERE username = $1', [username]);
         if (result.rows.length === 0) {
             return res.status(404).json({ message: '예약 정보를 찾을 수 없습니다.' });
         }
