@@ -8,21 +8,23 @@
     overflow: hidden; /* 공백이 생기지 않도록 설정 */
 }
 
-/* 중앙 로고 이미지 영역 */
+/* 중앙 이미지 영역 */
 .home-logo {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw; /* 화면 너비를 100%로 설정 */
-    height: 100vh; /* 화면 높이를 100%로 설정 */
-    overflow: hidden; /* 이미지가 영역을 넘지 않도록 */
+    width: 100vw; /* 화면 전체 너비로 설정 */
+    height: 100vh; /* 화면 전체 높이로 설정 */
+    overflow: hidden; /* 이미지가 영역을 넘지 않도록 설정 */
 }
 
-/* 로고 이미지 크기 */
-.logo-img {
-    width: 100%; /* 부모 요소의 너비를 100%로 설정 */
-    height: 100%; /* 부모 요소의 높이를 100%로 설정 */
-    object-fit: cover; /* 비율을 유지하면서 컨테이너를 꽉 채움 */
+/* 이미지 자동 확대 스타일 */
+.home-img {
+    width: 100%; /* 부모 요소의 너비에 맞춤 */
+    height: 100%; /* 부모 요소의 높이에 맞춤 */
+    object-fit: cover; /* 비율을 유지하며 컨테이너를 꽉 채움 */
+    min-width: 100vw; /* 이미지가 작을 경우 너비를 부모에 맞춰 확대 */
+    min-height: 100vh; /* 이미지가 작을 경우 높이를 부모에 맞춰 확대 */
     display: block; /* 이미지 주변 여백 제거 */
 }
