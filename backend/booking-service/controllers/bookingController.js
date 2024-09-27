@@ -3,7 +3,7 @@ const { SQSClient, SendMessageCommand } = require("@aws-sdk/client-sqs");
 const sqsClient = new SQSClient({ region: "ap-northeast-2" });  // AWS 리전 설정 (필요에 따라 리전 수정)
 
 // Function to create a booking
-exports.booking = async (req, res) => {
+const booking = async (req, res) => {
     console.log(req.body);
     const { userId, departureFlight, arrivalFlight, customer_email } = req.body;
     try {
@@ -26,6 +26,22 @@ exports.booking = async (req, res) => {
         res.status(500).json({ message: 'Booking failed222.' });
     }
 };
+
+const getInfo = async (req, res) => {
+    const { userid } = req.params;
+    try {
+        const result = await pool.query('SELECT flight_code FROM booking WHERE username = $1', [userid]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: '예약 정보를 찾을 수 없습니다.' });
+        }
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error('DB 검색 오류:', error);
+        res.status(500).json({ message: '서버 오류가 발생했습니다.' });
+    }
+}
+
+
 
 const sqs = async (bookingId, customer_email) => {
     const bookingDate = new Date().toISOString(); // booking_date는 현재 시간으로 설정
@@ -60,7 +76,6 @@ const sqs = async (bookingId, customer_email) => {
         console.error('Error processing booking:', error);
     }
 }
-
 // SQS에 메시지 전송하는 함수
 async function sendMessageToSQS(messageBody) {
     const params = {
@@ -74,4 +89,9 @@ async function sendMessageToSQS(messageBody) {
     } catch (err) {
         console.error("Error sending message:", err);
     }
+}
+
+module.exports = {
+    booking,
+    getInfo
 }

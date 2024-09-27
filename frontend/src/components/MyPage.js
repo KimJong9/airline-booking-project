@@ -33,7 +33,7 @@ const MyPage = () => {
                 setUserData(response.data); // 가져온 데이터 저장
 
                 // 예약 정보 가져오기
-                const bookingResponse = await axios.get(`https://alb.heroic.today/user/${username}/bookings`, {
+                const bookingResponse = await axios.get(`https://alb.heroic.today/booking/getInfo/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setBookings(bookingResponse.data); // 예약 데이터 저장
