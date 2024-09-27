@@ -42,7 +42,7 @@ const MyPage = () => {
 
                 const bookingsWithFlightInfo = await Promise.all(
                     bookingResponse.data.map(async (booking) => {
-                        const flightResponse = await axios.get(`https://alb.heroic.today/flights/${booking.flight_code}`, {
+                        const flightResponse = await axios.get(`https://alb.heroic.today/flight/${booking.flight_code}`, {
                             headers: { Authorization: `Bearer ${token}` },
                         },{withCredentials: true });
                         return {
