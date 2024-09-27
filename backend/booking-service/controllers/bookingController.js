@@ -35,6 +35,9 @@ const getInfo = async (req, res) => {
         if (result.rows.length === 0) {
             return res.status(404).json({ message: '예약 정보를 찾을 수 없습니다.' });
         }
+        console.log(result.rows[0]);
+        console.log("------");
+        console.log(result);
         res.json(result.rows[0]);
     } catch (error) {
         console.error('DB 검색 오류:', error);
