@@ -55,6 +55,7 @@ const MyPage = () => {
                 // 페이지네이션 계산
                 setTotalPages(Math.ceil(bookingsWithFlightInfo.length / limit));
                 setBookings(bookingsWithFlightInfo);
+                console.log(bookings);
             } catch (error) {
                 console.error('사용자 정보 및 예약 정보 가져오기 실패:', error);
             }
