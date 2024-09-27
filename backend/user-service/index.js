@@ -12,6 +12,9 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
+app.get('/health', (req, res) => {
+    res.status(200).send('Healthy');
+});
 
 
 // 라우트 연결

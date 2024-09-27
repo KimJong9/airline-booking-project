@@ -14,6 +14,9 @@ app.use(cors({
 
 const bookingRoutes = require('./routes/bookingRoutes');
 app.use('/booking', bookingRoutes);
+app.get('/health', (req, res) => {
+    res.status(200).send('Healthy');
+});
 
 
 app.listen(PORT, () => {

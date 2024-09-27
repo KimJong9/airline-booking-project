@@ -17,6 +17,9 @@ app.use(express.json());
 // 검색 라우터 연결
 
 app.use('/flight', searchRoutes);
+app.get('/health', (req, res) => {
+    res.status(200).send('Healthy');
+});
 
 // 서버 실행
 app.listen(PORT, () => {
