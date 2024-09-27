@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const MyPage = () => {
     const [userData, setUserData] = useState({});
+    const [bookings, setBookings] = useState([]); // 사용자 예약 데이터를 저장할 상태
     const [passwords, setPasswords] = useState({
         currentPassword: '',
         newPassword: '',
@@ -26,14 +27,18 @@ const MyPage = () => {
                 const username = decodedToken.username; // 토큰에 담긴 사용자 아이디
 
                 // 사용자 정보를 DB에서 가져오기
-                console.log(username);
                 const response = await axios.get(`https://alb.heroic.today/user/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                console.log(response.data);
                 setUserData(response.data); // 가져온 데이터 저장
+
+                // 예약 정보 가져오기
+                const bookingResponse = await axios.get(`https://alb.heroic.today/user/${username}/bookings`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                setBookings(bookingResponse.data); // 예약 데이터 저장
             } catch (error) {
-                console.error('사용자 정보 가져오기 실패:', error);
+                console.error('사용자 정보 및 예약 정보 가져오기 실패:', error);
             }
         };
 
@@ -65,7 +70,7 @@ const MyPage = () => {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
-        },{withCredentials: true })
+        })
             .then(() => {
                 setMessage('비밀번호가 성공적으로 변경되었습니다.');
             })
@@ -77,6 +82,8 @@ const MyPage = () => {
     return (
         <div className="mypage-container">
             <h2>My Page</h2>
+
+            {/* 사용자 정보 표시 */}
             <div className="profile-info">
                 <p><strong>이름:</strong> {userData.full_name}</p>
                 <p><strong>아이디:</strong> {userData.username}</p>
@@ -84,6 +91,26 @@ const MyPage = () => {
                 <p><strong>전화번호:</strong> {userData.phone_number}</p>
             </div>
 
+            {/* 예약 정보 표시 */}
+            <div className="booking-info">
+                <h3>내 예약 정보</h3>
+                {bookings.length > 0 ? (
+                    <ul>
+                        {bookings.map((booking, index) => (
+                            <li key={index}>
+                                <p>항공편: {booking.flight_code}</p>
+                                <p>출발지: {booking.departure_airport}</p>
+                                <p>도착지: {booking.arrival_airport}</p>
+                                <p>출발 시간: {booking.departure_time}</p>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>예약된 항공편이 없습니다.</p>
+                )}
+            </div>
+
+            {/* 비밀번호 변경 */}
             <div className="password-change">
                 <h3>비밀번호 변경</h3>
                 <input
