@@ -10,7 +10,7 @@ on:
 env:
   NODE_OPTION: '--no-warnings'
   AWS_REGION: ap-northeast-2
-  REACT_APP_API_URL: ${{ secrets.BACKEND_URL }}
+  BACKEND_URL: ${{ secrets.BACKEND_URL }}
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
