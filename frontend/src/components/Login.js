@@ -3,7 +3,7 @@ import './Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const apiURL = process.env.BACKEND_URL;
 
 function Login(setIsLoggedIn, IsLoggedIn=false) {
     const [username, setUsername] = useState('');
@@ -15,7 +15,7 @@ function Login(setIsLoggedIn, IsLoggedIn=false) {
         e.preventDefault(); // 폼 제출 시 새로고침 방지
 
         try {
-            const response = await axios.post(`${BACKEND_URL}/user/login`, {
+            const response = await axios.post(`${apiURL}/user/login`, {
                 username,
                 password,
             },{withCredentials: true });

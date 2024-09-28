@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Signup.css';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const apiURL = process.env.BACKEND_URL;
 
 function Signup() {
     const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${BACKEND_URL}/user/signup`, {
+            const response = await axios.post(`${apiURL}/user/signup`, {
                 username,
                 password,
                 email,
