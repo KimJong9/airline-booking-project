@@ -3,6 +3,8 @@ import './Login.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function Login(setIsLoggedIn, IsLoggedIn=false) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -13,7 +15,7 @@ function Login(setIsLoggedIn, IsLoggedIn=false) {
         e.preventDefault(); // 폼 제출 시 새로고침 방지
 
         try {
-            const response = await axios.post("https://alb.heroic.today/user/login", {
+            const response = await axios.post(`${BACKEND_URL}/user/login`, {
                 username,
                 password,
             },{withCredentials: true });

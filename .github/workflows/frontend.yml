@@ -10,7 +10,7 @@ on:
 env:
   NODE_OPTION: '--no-warnings'
   AWS_REGION: ap-northeast-2
-
+  REACT_APP_API_URL: ${{ secrets.BACKEND_URL }}
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
@@ -53,48 +53,6 @@ jobs:
         with:
           name: build-output
           path: frontend/build
-
-#  test-frontend:
-#    needs: build-frontend  # build-frontend가 성공적으로 완료되어야 실행
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      # 1. 저장소 체크아웃
-#      - name: Checkout repository
-#        uses: actions/checkout@v4
-#
-#      # 2. Node.js 설치
-#      - name: Set up Node.js
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: '20'
-#
-#      # 3. 의존성 캐싱
-#      - name: Cache node modules
-#        uses: actions/cache@v3
-#        with:
-#          path: frontend/node_modules
-#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-#          restore-keys: |
-#            ${{ runner.os }}-node-
-#      # 3.5. 의존성 설치
-#      - name: Install dependencies
-#        run: |
-#          cd frontend
-#          npm ci
-#
-#      # 4. 빌드된 결과물 다운로드
-#      - name: Download build artifacts
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: build-output
-#          path: frontend/build
-#
-#      # 5. 테스트 실행
-#      - name: Run tests
-#        run: |
-#          cd frontend
-#          npm test --watchAll=false a
 
   upload-frontend:
     needs: build-frontend  # test-frontend가 성공적으로 완료되어야 실행

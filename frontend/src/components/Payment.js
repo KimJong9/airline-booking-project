@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios"; // For sending the request
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Payment = () => {
     const location = useLocation();
@@ -15,7 +16,7 @@ const Payment = () => {
         const fetchUserInfo = async () => {
             try {
                 // 백엔드의 getUserInfo API 호출
-                const response = await axios.get(`https://alb.heroic.today/user/${username}`);
+                const response = await axios.get(`${BACKEND_URL}/user/${username}`);
                 const userInfo = response.data;
 
                 // 이메일 정보를 state에 저장
@@ -28,7 +29,7 @@ const Payment = () => {
     }, [username]);
     const handleBooking = async () => {
         try {
-            await axios.post('https://alb.heroic.today/booking', {
+            await axios.post(`${BACKEND_URL}/booking`, {
                 userId: username,
                 departureFlight: departureFlight.flight_code,
                 arrivalFlight: arrivalFlight.flight_code,

@@ -3,6 +3,8 @@ import './BookingSection.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';  // React Router 사용
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 function BookingSection() {
     // 출발지 상태
     const [departureCountries, setDepartureCountries] = useState([]);
@@ -26,14 +28,14 @@ function BookingSection() {
 
     // 출발지 나라 목록 불러오기
     useEffect(() => {
-        axios.get('https://alb.heroic.today/flight/countries',{withCredentials: true })
+        axios.get(`${BACKEND_URL}/flight/countries`,{withCredentials: true })
             .then((response) => setDepartureCountries(response.data))
             .catch((error) => console.error('나라 목록 가져오기 실패:', error));
     }, []);
 
     // 도착지 나라 목록 불러오기
     useEffect(() => {
-        axios.get('https://alb.heroic.today/flight/countries',{withCredentials: true })
+        axios.get(`${BACKEND_URL}/flight/countries`,{withCredentials: true })
             .then((response) => setArrivalCountries(response.data))
             .catch((error) => console.error('나라 목록 가져오기 실패:', error));
     }, []);
@@ -41,7 +43,7 @@ function BookingSection() {
     // 출발지 선택 시 도시 목록 불러오기
     useEffect(() => {
         if (selectedDepartureCountry) {
-            axios.get(`https://alb.heroic.today/flight/cities/${selectedDepartureCountry}`,{withCredentials: true })
+            axios.get(`${BACKEND_URL}/flight/cities/${selectedDepartureCountry}`,{withCredentials: true })
                 .then((response) => setDepartureCities(response.data))
                 .catch((error) => console.error('도시 목록 가져오기 실패:', error));
         }
@@ -50,7 +52,7 @@ function BookingSection() {
     // 도착지 선택 시 도시 목록 불러오기
     useEffect(() => {
         if (selectedArrivalCountry) {
-            axios.get(`https://alb.heroic.today/flight/cities/${selectedArrivalCountry}`,{withCredentials: true })
+            axios.get(`${BACKEND_URL}/flight/cities/${selectedArrivalCountry}`,{withCredentials: true })
                 .then((response) => setArrivalCities(response.data))
                 .catch((error) => console.error('도시 목록 가져오기 실패:', error));
         }
@@ -59,7 +61,7 @@ function BookingSection() {
     // 출발지 도시 선택 시 공항 목록 불러오기
     useEffect(() => {
         if (selectedDepartureCity) {
-            axios.get(`https://alb.heroic.today/flight/airports/${selectedDepartureCountry}/${selectedDepartureCity}`,{withCredentials: true })
+            axios.get(`${BACKEND_URL}/flight/airports/${selectedDepartureCountry}/${selectedDepartureCity}`,{withCredentials: true })
                 .then((response) => setDepartureAirports(response.data))
                 .catch((error) => console.error('공항 목록 가져오기 실패:', error));
         }
@@ -68,7 +70,7 @@ function BookingSection() {
     // 도착지 도시 선택 시 공항 목록 불러오기
     useEffect(() => {
         if (selectedArrivalCity) {
-            axios.get(`https://alb.heroic.today/flight/airports/${selectedArrivalCountry}/${selectedArrivalCity}`,{withCredentials: true })
+            axios.get(`${BACKEND_URL}/flight/airports/${selectedArrivalCountry}/${selectedArrivalCity}`,{withCredentials: true })
                 .then((response) => setArrivalAirports(response.data))
                 .catch((error) => console.error('공항 목록 가져오기 실패:', error));
         }
@@ -80,7 +82,7 @@ function BookingSection() {
             return;
         }
 
-        axios.get(`https://alb.heroic.today/flight/flights`, {
+        axios.get(`${BACKEND_URL}/flight/flights`, {
             params: {
                 departureAirport: selectedDepartureAirport,
                 departureDate,

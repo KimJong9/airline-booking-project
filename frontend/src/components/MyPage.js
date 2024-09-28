@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './MyPage.css';
 import axios from 'axios';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const MyPage = () => {
     const [userData, setUserData] = useState({});
     const [bookings, setBookings] = useState([]); // 예약 데이터를 저장할 상태
@@ -30,19 +32,19 @@ const MyPage = () => {
                 const username = decodedToken.username; // 토큰에 담긴 사용자 아이디
 
                 // 사용자 정보를 DB에서 가져오기
-                const userResponse = await axios.get(`https://alb.heroic.today/user/${username}`, {
+                const userResponse = await axios.get(`${BACKEND_URL}/user/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setUserData(userResponse.data); // 가져온 데이터 저장
 
                 // 예약 정보 가져오기
-                const bookingResponse = await axios.get(`https://alb.heroic.today/booking/getInfo/${username}`, {
+                const bookingResponse = await axios.get(`${BACKEND_URL}/booking/getInfo/${username}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 },{withCredentials: true });
 
                 const bookingsWithFlightInfo = await Promise.all(
                     bookingResponse.data.map(async (booking) => {
-                        const flightResponse = await axios.get(`https://alb.heroic.today/flight/${booking.flight_code}`, {
+                        const flightResponse = await axios.get(`${BACKEND_URL}/flight/${booking.flight_code}`, {
                             headers: { Authorization: `Bearer ${token}` },
                         },{withCredentials: true });
                         return {
