@@ -8,8 +8,8 @@ metadata:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/backend-protocol: HTTP  # 백엔드 프로토콜 설정
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:241533155281:certificate/81ed15c3-1e6c-4a5b-a925-91697ca7c565  # ACM에서 발급받은 인증서 ARN
-    alb.ingress.kubernetes.io/healthcheck-path: /  # 헬스 체크 경로
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-northeast-2:241533155281:certificate/b40ce501-5a06-480f-bf30-dc5f41235fdd  # ACM에서 발급받은 인증서 ARN
+    alb.ingress.kubernetes.io/healthcheck-path: /health  # 헬스 체크 경로
     alb.ingress.kubernetes.io/healthcheck-interval-seconds: '15'  # 헬스 체크 주기 (초 단위)
     alb.ingress.kubernetes.io/subnets: subnet-038eae65aa088284e,subnet-05bea2196f9f065b0  # *서브넷은 항상 교체해주기(퍼블릭 서브넷)
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-2016-08
