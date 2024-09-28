@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios"; // For sending the request
 
-const apiURL = process.env.BACKEND_URL;
+const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const Payment = () => {
     const location = useLocation();

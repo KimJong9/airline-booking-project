@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './MyPage.css';
 import axios from 'axios';
 
-const apiURL = process.env.BACKEND_URL;
+const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 const MyPage = () => {
     const [userData, setUserData] = useState({});

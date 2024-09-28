@@ -3,7 +3,7 @@ import './BookingSection.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';  // React Router 사용
 
-const apiURL = process.env.BACKEND_URL;
+const apiURL = process.env.REACT_APP_BACKEND_URL;
 
 function BookingSection() {
     // 출발지 상태

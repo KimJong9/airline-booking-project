@@ -44,7 +44,7 @@ jobs:
       # 5. 빌드 실행
       - name: Build the frontend
         env:
-          BACKEND_URL: ${{ secrets.BACKEND_URL }}
+          REACT_APP_BACKEND_URL: ${{ secrets.REACT_APP_BACKEND_URL }}
         run: |
           cd frontend
           npm run build
