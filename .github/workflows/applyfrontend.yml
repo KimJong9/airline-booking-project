@@ -52,23 +52,24 @@ jobs:
           name: build-output
           path: frontend/build
 
-      # 7. 빌드 성공 시 Slack 알림 전송
+          # 7. 빌드 성공 시 Slack 알림 전송
       - name: Notify Slack on success
         if: success()
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          slack-message: "Build succeeded for main branch! Click to apply the frontend chan"
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}                                  
-          slack-channel: ${{ secrets.SLACK_CHANNEL }}                                      
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}  # 채널 이름이 아니라 ID여야 합니다.
+          slack-message: "Build succeeded for main branch! Click to apply the frontend changes."
+          bot-token: ${{ secrets.SLACK_BOT_TOKEN }}  # 여기에서 bot-token으로 수정
+          actions: "Apply Changes"
 
       # 8. 빌드 실패 시 Slack 알림 전송
       - name: Notify Slack on failure
         if: failure()
         uses: slackapi/slack-github-action@v1.23.0
         with:
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
           slack-message: "Build failed for main branch. Please check the logs."
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          slack-channel: ${{ secrets.SLACK_CHANNEL }}
+          bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
 
   upload-frontend:
     needs: build-frontend  # test-frontend가 성공적으로 완료되어야 실행

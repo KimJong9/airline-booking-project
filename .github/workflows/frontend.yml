@@ -61,9 +61,9 @@ jobs:
         if: success()
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          slack-message: "Build succeeded for main branch! Click to apply the frontend changes."
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          slack-channel: ${{ secrets.SLACK_CHANNEL }}
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}  # 채널 이름이 아니라 ID여야 합니다.
+          slack-message: "Build succeeded for test server! after test, Click to apply the frontend changes."
+          bot-token: ${{ secrets.SLACK_BOT_TOKEN }}  # 여기에서 bot-token으로 수정
           actions: "Apply Changes"
 
       # 8. 빌드 실패 시 Slack 알림 전송
@@ -71,9 +71,9 @@ jobs:
         if: failure()
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          slack-message: "Build failed for main branch. Please check the logs."
-          slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
-          slack-channel: ${{ secrets.SLACK_CHANNEL }}
+          channel-id: ${{ secrets.SLACK_CHANNEL_ID }}
+          slack-message: "Build failed for test. Please check the logs."
+          bot-token: ${{ secrets.SLACK_BOT_TOKEN }}
 
   upload-frontend:
     needs: build-frontend  # test-frontend가 성공적으로 완료되어야 실행
