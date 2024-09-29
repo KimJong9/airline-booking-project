@@ -57,7 +57,7 @@ jobs:
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text": "Build succeeded for main branch! Click to apply the frontend changes."}' \
+          --data '{"text": "테스트 환경을 실제 환경에 적용하였습니다."}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       # 8. 빌드 실패 시 Slack 알림 전송
@@ -65,7 +65,7 @@ jobs:
         if: failure()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text": "Build failed for main branch. Please check the logs."}' \
+          --data '{"text": "테스트 환경을 실제 환경에 적용 중 오류가 발생했습니다."}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
 

@@ -1,4 +1,4 @@
-name: Build and Push Docker Images to ECR
+name: Build Backend for Test
 
 on:
   push:
@@ -18,9 +18,9 @@ jobs:
       IMAGE_USER: airline-booking-project_user
       IMAGE_BOOKING: airline-booking-project_booking
       IMAGE_FLIGHT: airline-booking-project_flight
-      TAG_USER: user
-      TAG_BOOKING: booking
-      TAG_FLIGHT: flight
+      TAG_USER: usertest
+      TAG_BOOKING: bookingtest
+      TAG_FLIGHT: flighttest
       DOCKER_TAG: latest
 
     steps:
@@ -62,3 +62,28 @@ jobs:
         run: |
           docker tag ${{ env.IMAGE_FLIGHT }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_FLIGHT }}
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_FLIGHT }}
+  deploy_test:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      # 1. GitHub 저장소 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. AWS 자격 증명 구성
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2  # EKS 클러스터가 있는 리전
+
+      # 3. AWS EKS 클러스터에 연결 (kubeconfig 설정)
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --name jaws-staging-cluster --region ap-northeast-2
+
+      # 4. kubectl을 사용하여 배포 재시작
+      - name: Rollout restart deployment
+        run: |
+          kubectl rollout restart deployment -n default

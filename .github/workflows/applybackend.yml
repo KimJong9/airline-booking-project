@@ -1,0 +1,84 @@
+name: Apply Backend
+
+on:
+  workflow_dispatch:  # 수동으로 트리거
+
+
+jobs:
+  change-tag:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ap-northeast-2
+      ECR_REGISTRY: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com
+      ECR_REPOSITORY: jaws/backend
+
+      TAG_BEFORE_USER: usertest
+      TAG_BEFORE_BOOKING: bookingtest
+      TAG_BEFORE_FLIGHT: flighttest
+
+      TAG_AFTER_USER: user
+      TAG_AFTER_BOOKING: booking
+      TAG_AFTER_FLIGHT: flight
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # AWS CLI를 설정하기 위한 인증
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2  # 원하는 리전으로 설정
+
+      # ECR에 로그인
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+
+      # 기존 태그로 이미지 Pull
+      - name: Pull the image from ECR
+        run: |
+          docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_USER }}
+          docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_FLIGHT }}
+          docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_BOOKING }}
+      # 새로운 태그로 이미지 태그 변경
+      - name: Retag the image
+        run: |
+          docker tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_BOOKING }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_BOOKING }}
+          docker tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_FLIGHT }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_FLIGHT }}
+          docker tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_USER }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_USER }}
+
+      # 새로운 태그로 이미지 푸시
+      - name: Push the newly tagged image to ECR
+        run: |
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_BOOKING }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_USER }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_FLIGHT }}
+
+  deploy_PROD:
+    needs: change-tag
+    runs-on: ubuntu-latest
+    steps:
+      # 1. GitHub 저장소 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. AWS 자격 증명 구성
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2  # EKS 클러스터가 있는 리전
+
+      # 3. AWS EKS 클러스터에 연결 (kubeconfig 설정)
+      - name: Update kubeconfig for EKS
+        run: |
+          aws eks update-kubeconfig --name jaws-prod-cluster --region ap-northeast-2
+
+      # 4. kubectl을 사용하여 배포 재시작
+      - name: Rollout restart deployment
+        run: |
+          kubectl rollout restart deployment -n default
