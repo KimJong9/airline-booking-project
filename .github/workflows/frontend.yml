@@ -56,21 +56,21 @@ jobs:
           name: build-output
           path: frontend/build
 
+      # 7. 빌드 성공 시 Slack 알림 전송
       - name: Notify Slack on success
         if: success()
-        uses: slackapi/slack-api-action@v1.0.0
-        with:
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: ${{ secrets.SLACK_CHANNEL_ID }}
-          text: "Build succeeded for main branch! Click to apply the frontend changes."
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "Build succeeded for main branch! Click to apply the frontend changes."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 
+      # 8. 빌드 실패 시 Slack 알림 전송
       - name: Notify Slack on failure
         if: failure()
-        uses: slackapi/slack-api-action@v1.0.0
-        with:
-          token: ${{ secrets.SLACK_BOT_TOKEN }}
-          channel: ${{ secrets.SLACK_CHANNEL_ID }}
-          text: "Build failed for main branch. Please check the logs."
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "Build failed for main branch. Please check the logs."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
 
   upload-frontend:
     needs: build-frontend  # test-frontend가 성공적으로 완료되어야 실행
