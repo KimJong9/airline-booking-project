@@ -57,10 +57,9 @@ jobs:
         if: success()
         uses: slackapi/slack-github-action@v1.23.0
         with:
-          slack-message: "Build succeeded for main branch! Click to apply the frontend chan
+          slack-message: "Build succeeded for main branch! Click to apply the frontend chan"
           slack-bot-token: ${{ secrets.SLACK_BOT_TOKEN }}                                  
           slack-channel: ${{ secrets.SLACK_CHANNEL }}                                      
-          actions: "Apply Changes"
 
       # 8. 빌드 실패 시 Slack 알림 전송
       - name: Notify Slack on failure
