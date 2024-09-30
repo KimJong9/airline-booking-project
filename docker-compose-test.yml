@@ -3,8 +3,8 @@ version: '3'
 services:
   user:
     environment:
-      - DB_HOST=jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
-      - ORIGIN_URL=https://www.jawsfly.net
+      - DB_HOST=staging-aurora-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
+      - ORIGIN_URL=https://test.jawsfly.net
     build:
       context: backend/user-service
     ports:
@@ -14,8 +14,8 @@ services:
 
   booking:
     environment:
-      - DB_HOST=jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
-      - ORIGIN_URL=https://www.jawsfly.net
+      - DB_HOST=staging-aurora-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
+      - ORIGIN_URL=https://test.jawsfly.net
     build:
       context: ./backend/booking-service
     ports:
@@ -25,8 +25,8 @@ services:
 
   flight:
     environment:
-      - DB_HOST=jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
-      - ORIGIN_URL=https://www.jawsfly.net
+      - DB_HOST=staging-aurora-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
+      - ORIGIN_URL=https://test.jawsfly.net
     build:
       context: backend/flight-service
     ports:

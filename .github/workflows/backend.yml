@@ -49,7 +49,7 @@ jobs:
           # Install Docker Compose
           sudo apt-get install -y docker-compose
           # docker-compose build
-          docker-compose build
+          docker-compose -f docker-compose-test build
           docker image ls
 
       - name: Tag and Push user image to ECR
