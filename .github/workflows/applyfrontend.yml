@@ -2,7 +2,8 @@ name: Apply Frontend
 
 on:
   workflow_dispatch:
-
+  repository_dispatch:
+    types: [ applybackend ]
 env:
   NODE_OPTION: '--no-warnings'
   AWS_REGION: ap-northeast-2
