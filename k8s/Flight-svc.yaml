@@ -18,6 +18,7 @@ spec:
       containers:
       - name: flight-service
         image: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com/jaws/backend:flighttest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5001
 ---
