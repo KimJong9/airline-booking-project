@@ -9,6 +9,15 @@ env:
   AWS_REGION: ap-northeast-2
 
 jobs:
+  slack-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack on success
+        run: |
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "Frontend: 실제 환경에 배포 시작"}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+
   build-frontend:
     runs-on: ubuntu-latest
 
