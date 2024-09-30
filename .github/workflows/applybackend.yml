@@ -36,10 +36,10 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-          - name: Build Docker images with Docker Compose
+      - name: Build Docker images with Docker Compose
         env:
-          REACT_APP_ORIGIN_URL: https://www.jawsfly.net
-          REACT_APP_DB_HOST: jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
+          REACT_APP_ORIGIN_URL: ${{secrets.REACT_APP_PROD_ORIGIN}}
+          REACT_APP_DB_HOST: ${{secrets.REACT_APP_PROD_DB}}
         run: |
           # Update package lists
           sudo apt-get update

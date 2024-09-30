@@ -41,8 +41,8 @@ jobs:
 
       - name: Build Docker images with Docker Compose
         env:
-          REACT_APP_ORIGIN_URL: https://test.jawsfly.net
-          REACT_APP_DB_HOST: staging-aurora-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
+          REACT_APP_ORIGIN_URL: ${{secrets.REACT_APP_TEST_ORIGIN}}
+          REACT_APP_DB_HOST: ${{secrets.REACT_APP_TEST_DB}}
         run: |
           # Update package lists
           sudo apt-get update
