@@ -101,7 +101,10 @@ jobs:
         if: success()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text": "prod 클러스터에 배포가 완료 되었습니다."}' \
+          --data '{"text": "Backend: prod 클러스터에 배포가 완료 되었습니다."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "<https://www.jawsfly.net|실제 환경 페이지>"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
 
       # 6. 배포 실패 시 Slack 알림 전송
@@ -109,5 +112,8 @@ jobs:
         if: failure()
         run: |
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text": "prod 클러스터에 배포가 실패했습니다. 로그를 확인하세요."}' \
+          --data '{"text": Backend: prod 클러스터에 배포가 실패했습니다. 로그를 확인하세요."}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text": "<https://github.com/KimJong9/airline-booking-project/actions/workflows/applybackend.yml|GitHub Actions에서 로그를 확인하세요>"}' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
