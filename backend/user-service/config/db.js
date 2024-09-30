@@ -1,5 +1,6 @@
-const { Pool } = require('pg');
 require('dotenv').config();
+const { Pool } = require('pg');
+
 const dbHost = process.env.DB_HOST;
 
 // PostgreSQL 연결 설정

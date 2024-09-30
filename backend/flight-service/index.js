@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const searchRoutes = require('./routes/flightRoutes');
-require('dotenv').config();
+
 const pool = require('./config/db');
 
 const app = express();
