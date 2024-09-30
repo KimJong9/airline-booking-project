@@ -42,8 +42,10 @@ jobs:
       # .env 파일 생성
       - name: Create .env file
         run: |
-          echo "ORIGIN_URL=${{ secrets.REACT_APP_TEST_ORIGIN }}" >> ./.env
-          echo "DB_HOST=${{ secrets.REACT_APP_TEST_DB }}" >> ./.env
+          for dir in backend/*/; do
+            echo "ORIGIN_URL=${{ secrets.REACT_APP_TEST_ORIGIN }}" >> "$dir.env"
+            echo "DB_HOST=${{ secrets.REACT_APP_TEST_DB }}" >> "$dir.env"
+          done
 
       - name: Build Docker images with Docker Compose
         run: |
