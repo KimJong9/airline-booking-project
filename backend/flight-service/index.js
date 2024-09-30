@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 app.use(cors({
-    origin: 'https://www.jawsfly.net',  // 프론트엔드가 실행 중인 주소
+    origin: ['https://www.jawsfly.net','https://test.jawsfly.net'],  // 프론트엔드가 실행 중인 주소
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));

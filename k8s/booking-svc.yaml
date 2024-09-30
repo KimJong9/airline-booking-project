@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: booking-service
-        image: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com/jaws/backend:booking
+        image: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com/jaws/backend:bookingtest
         ports:
         - containerPort: 5002
 ---
