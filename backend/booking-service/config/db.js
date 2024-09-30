@@ -3,7 +3,6 @@ const { Pool } = require('pg');
 
 const dbHost = process.env.DB_HOST;
 console.log(process.env.DB_HOST);
-console.log(env.DB_HOST);
 console.log(DB_HOST);
 console.log(dbHost);
 // PostgreSQL 연결 설정
