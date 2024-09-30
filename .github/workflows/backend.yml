@@ -40,9 +40,9 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build Docker images with Docker Compose
-        env:
-          ORIGIN_URL: ${{secrets.REACT_APP_TEST_ORIGIN}}
-          DB_HOST: ${{secrets.REACT_APP_TEST_DB}}
+#        env:
+#          ORIGIN_URL: ${{secrets.REACT_APP_TEST_ORIGIN}}
+#          DB_HOST: ${{secrets.REACT_APP_TEST_DB}}
         run: |
           # Update package lists
           sudo apt-get update
