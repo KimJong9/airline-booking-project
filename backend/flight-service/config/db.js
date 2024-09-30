@@ -1,6 +1,6 @@
 const { Pool } = require('pg');
 
-const dbHost = process.env.REACT_APP_DB_HOST;
+const dbHost = process.env.DB_HOST;
 
 // PostgreSQL 연결 설정
 const pool = new Pool({

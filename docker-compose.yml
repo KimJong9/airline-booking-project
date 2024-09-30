@@ -2,7 +2,7 @@ version: '3'
 services:
   user:
     environment:
-      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
+#      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
       - REACT_APP_ORIGIN_URL=${REACT_APP_ORIGIN_URL}
     build:
       context: backend/user-service
@@ -13,7 +13,7 @@ services:
 
   booking:
     environment:
-      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
+    #  - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
       - REACT_APP_ORIGIN_URL=${REACT_APP_ORIGIN_URL}
     build:
       context: ./backend/booking-service
@@ -24,7 +24,7 @@ services:
 
   flight:
     environment:
-      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
+    #  - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
       - REACT_APP_ORIGIN_URL=${REACT_APP_ORIGIN_URL}
     build:
       context: backend/flight-service
