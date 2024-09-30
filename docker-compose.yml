@@ -1,6 +1,8 @@
 version: '3'
 services:
   user:
+    environment:
+      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
     build:
       context: backend/user-service
     ports:
@@ -9,6 +11,8 @@ services:
       - backend-network
 
   booking:
+    environment:
+      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
     build:
       context: ./backend/booking-service
     ports:
@@ -17,6 +21,8 @@ services:
       - backend-network
 
   flight:
+    environment:
+      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
     build:
       context: backend/flight-service
     ports:
