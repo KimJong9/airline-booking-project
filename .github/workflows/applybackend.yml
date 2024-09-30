@@ -89,7 +89,7 @@ jobs:
       # 3. AWS EKS 클러스터에 연결 (kubeconfig 설정)
       - name: Update kubeconfig for EKS
         run: |
-          aws eks update-kubeconfig --name jaws-prod-cluster --region ap-northeast-2
+          aws eks update-kubeconfig --name jaws_prod_cluster --region ap-northeast-2
 
       # 4. kubectl을 사용하여 배포 재시작
       - name: Rollout restart deployment
