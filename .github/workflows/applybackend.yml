@@ -38,8 +38,8 @@ jobs:
 
       - name: Build Docker images with Docker Compose
         env:
-          REACT_APP_ORIGIN_URL: ${{secrets.REACT_APP_PROD_ORIGIN}}
-          REACT_APP_DB_HOST: ${{secrets.REACT_APP_PROD_DB}}
+          ORIGIN_URL: ${{secrets.REACT_APP_PROD_ORIGIN}}
+          DB_HOST: ${{secrets.REACT_APP_PROD_DB}}
         run: |
           # Update package lists
           sudo apt-get update

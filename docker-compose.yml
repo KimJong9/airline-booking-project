@@ -3,7 +3,7 @@ services:
   user:
     environment:
 #      - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
-      - REACT_APP_ORIGIN_URL=${REACT_APP_ORIGIN_URL}
+      - ORIGIN_URL=${ORIGIN_URL}
     build:
       context: backend/user-service
     ports:
@@ -14,7 +14,7 @@ services:
   booking:
     environment:
     #  - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
-      - REACT_APP_ORIGIN_URL=${REACT_APP_ORIGIN_URL}
+      - ORIGIN_URL=${ORIGIN_URL}
     build:
       context: ./backend/booking-service
     ports:
@@ -25,7 +25,7 @@ services:
   flight:
     environment:
     #  - REACT_APP_DB_HOST=${REACT_APP_DB_HOST}
-      - REACT_APP_ORIGIN_URL=${REACT_APP_ORIGIN_URL}
+      - ORIGIN_URL=${ORIGIN_URL}
     build:
       context: backend/flight-service
     ports:

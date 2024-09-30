@@ -7,7 +7,7 @@ const pool = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-const originURL = process.env.REACT_APP_ORIGIN_URL;
+const originURL = process.env.ORIGIN_URL;
 
 app.use(cors({
     origin: `${originURL}`,  // 프론트엔드가 실행 중인 주소
