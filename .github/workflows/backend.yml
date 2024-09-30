@@ -22,7 +22,7 @@ jobs:
       TAG_BOOKING: bookingtest
       TAG_FLIGHT: flighttest
       DOCKER_TAG: latest
-
+      REACT_APP_ORIGIN_URL: https://www.jawsfly.net
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
