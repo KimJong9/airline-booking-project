@@ -5,20 +5,19 @@ on:
 
 
 jobs:
-  change-tag:
+  build-and-push:
     runs-on: ubuntu-latest
     env:
       AWS_REGION: ap-northeast-2
       ECR_REGISTRY: 241533155281.dkr.ecr.ap-northeast-2.amazonaws.com
       ECR_REPOSITORY: jaws/backend
-
-      TAG_BEFORE_USER: usertest
-      TAG_BEFORE_BOOKING: bookingtest
-      TAG_BEFORE_FLIGHT: flighttest
-
-      TAG_AFTER_USER: user
-      TAG_AFTER_BOOKING: booking
-      TAG_AFTER_FLIGHT: flight
+      IMAGE_USER: airline-booking-project_user
+      IMAGE_BOOKING: airline-booking-project_booking
+      IMAGE_FLIGHT: airline-booking-project_flight
+      TAG_USER: user
+      TAG_BOOKING: booking
+      TAG_FLIGHT: flight
+      DOCKER_TAG: latest
 
     steps:
       - name: Checkout repository
@@ -33,32 +32,40 @@ jobs:
           aws-region: ap-northeast-2  # 원하는 리전으로 설정
 
       # ECR에 로그인
-      - name: Log in to Amazon ECR
-        run: |
-          aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      # 기존 태그로 이미지 Pull
-      - name: Pull the image from ECR
+          - name: Build Docker images with Docker Compose
+        env:
+          REACT_APP_ORIGIN_URL: https://www.jawsfly.net
+          REACT_APP_DB_HOST: jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com
         run: |
-          docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_USER }}
-          docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_FLIGHT }}
-          docker pull ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_BOOKING }}
-      # 새로운 태그로 이미지 태그 변경
-      - name: Retag the image
-        run: |
-          docker tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_BOOKING }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_BOOKING }}
-          docker tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_FLIGHT }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_FLIGHT }}
-          docker tag ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BEFORE_USER }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_USER }}
+          # Update package lists
+          sudo apt-get update
+          # Install Docker Compose
+          sudo apt-get install -y docker-compose
+          # docker-compose build
+          docker-compose build
+          docker image ls
 
-      # 새로운 태그로 이미지 푸시
-      - name: Push the newly tagged image to ECR
+      - name: Tag and Push user image to ECR
         run: |
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_BOOKING }}
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_USER }}
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_AFTER_FLIGHT }}
+          docker tag ${{ env.IMAGE_USER }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_USER }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_USER }}
+
+      - name: Tag and Push booking image to ECR
+        run: |
+          docker tag ${{ env.IMAGE_BOOKING }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BOOKING }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_BOOKING }}
+
+      - name: Tag and Push flight image to ECR
+        run: |
+          docker tag ${{ env.IMAGE_FLIGHT }}:${{ env.DOCKER_TAG }} ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_FLIGHT }}
+          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.TAG_FLIGHT }}
 
   deploy_PROD:
-    needs: change-tag
+    needs: build-and-push
     runs-on: ubuntu-latest
     steps:
       # 1. GitHub 저장소 체크아웃

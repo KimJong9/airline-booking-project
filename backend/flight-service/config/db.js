@@ -1,8 +1,10 @@
 const { Pool } = require('pg');
 
+const dbHost = process.env.REACT_APP_DB_HOST;
+
 // PostgreSQL 연결 설정
 const pool = new Pool({
-    host: 'jaws-aurora-postgres-cluster.cluster-cfcsa0sm2c8f.ap-northeast-2.rds.amazonaws.com',
+    host: `${dbHost}`,
     user: 'postgres',
     password: 'qwer1234',
     database: 'airline',
