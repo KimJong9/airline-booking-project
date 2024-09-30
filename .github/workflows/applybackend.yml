@@ -1,7 +1,9 @@
 name: Apply Backend
 
 on:
-  workflow_dispatch:  # 수동으로 트리거
+  workflow_dispatch:
+  repository_dispatch:
+    types: [ applybackend ]
 
 
 jobs:
