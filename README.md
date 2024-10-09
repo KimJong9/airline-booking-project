@@ -1,4 +1,4 @@
-# S3와 EKS로 구현하는 항공 예매 사이트
+# Terraform과 EKS로 구현하는 MSA 기반 항공 예매 사이트
 
 주제: 항공권 예약 시스템
 
@@ -6,25 +6,56 @@
 
 구동 환경: AWS
 
-프론트: Vue.js로 구성, npm으로 빌드, AWS S3 정적 호스팅 사용
+프론트: React로 구성, npm으로 빌드, 클라우드 프론트의 AWS S3 원본 동작으로 웹 호스팅 사용
 
-API: aws appsync랑 amazon api gateway로 구성하여 front의 요청을 backend로 전달
+백엔드: Nodejs로 빌드, 도커 이미지로 만들어서 ECR에 적재 후 eks로 구동,
 
-백엔드: maven으로 빌드, 도커 이미지로 만들어거 eks로 구동 예정,
+msa로 booking(항공 예약, 예약 이메일 전송 등), user(로그인, 회원가입, 회원 정보 관련 기능 등), flight(항공편 검색 등 항공편과 관련된 기능)로 기능들을 나눠서 쿠버네티스 구동
 
-msa로 booking(항공 예약), payment(결제), auth(로그인, 회원가입), search(항공편 검색), info(마이페이지)로 기능들을 나눠서 도커 컨테이너로 구동
+DB: AWS RDS의 Aurora postgreDB 사용
 
-DB: AWS RDS 사용, postgreDB나 Mysql 사용
+
+
+Frontend
+
+![메인화면](https://github.com/user-attachments/assets/a9fbeccc-7da3-4c5c-a61c-b79701508acc)
+
+
+
+![로그인 화면](https://github.com/user-attachments/assets/7bb00a8b-3317-4bc1-baef-b1bee3540657)
+
+
+
+![마이페이지 화면](https://github.com/user-attachments/assets/95ad3efe-606f-4c71-9f2a-27402e4a00d8)
+
+
+![비행기 예약 페이지](https://github.com/user-attachments/assets/ea27a98a-09ba-4e7f-a18d-0dab8de2eab2)
+
+
+![항공편 리스트 페이지 화면](https://github.com/user-attachments/assets/a8173ea5-4fea-48e6-a21c-b3d5ea387053)
+
+
+
+![결제완료화면](https://github.com/user-attachments/assets/1fe18559-8a5a-4d93-a5d4-3ba579fa0401)
+
+
+
+
+![예약정보확인화면](https://github.com/user-attachments/assets/a957684c-b416-46bc-b6d7-debc41a5deec)
+
+
+
+
 
 
 작업 목록
 
-9월 14일: 프론트 생성, 백엔드-auth 생성
+9월 14일: 프론트 생성, 백엔드-User 생성
 
-9월 15일: DB 연동 및 프론트,백엔드-auth 연동
+9월 15일: DB 연동 및 프론트,백엔드-User 연동
 
-9월 16일: 백엔드 Search 기능 구현
+9월 16일: 백엔드 Flight 기능 구현
 
 9월 17일: 백엔드 Booking 기능 구현, 도커 이미지 생성
 
-9월 18일: 백엔드 API 게이트웨이 사용하게 설정 및 Payment 구현
+9월 18일: CI-CD 구성
