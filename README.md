@@ -52,8 +52,9 @@ DB: AWS RDS의 Aurora postgreDB 사용
 
 
 
+프론트 엔드와 백엔드의 통신 시 백엔드 주소는 Login.js, BookingSection.js, MyPage.js, Payment.js, Signup.js 이렇게 5개 파일에서 apiURL을 설정하시면 됩니다.
 
-
+DB 설정은 백엔드의 각 서비스의 config 폴더 안의 db.js를 수정하시면 됩니다.
 
 작업 목록
 
