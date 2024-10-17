@@ -1,0 +1,20 @@
+# 로드벨런서 컨트롤러에 배포되어야 할 정책(설치할때 마다 일부 부분 갱신)
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::241533155281:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/004158EBAF1DE96781A6F65119AFF55C"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.ap-northeast-2.amazonaws.com/id/004158EBAF1DE96781A6F65119AFF55C:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+        }
+      }
+    }
+  ]
+}
+~                                                                                                                                                                                                                                   
+~        

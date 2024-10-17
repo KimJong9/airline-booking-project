@@ -1,0 +1,54 @@
+# 정책: KarpenterControllerPolicy
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateFleet",
+                "ec2:RunInstances",
+                "ec2:TerminateInstances",
+                "ec2:DescribeInstances",
+                "ec2:DescribeLaunchTemplates",
+                "ec2:CreateLaunchTemplate",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeInstanceTypes",
+                "ec2:DescribeKeyPairs",
+                "iam:PassRole",
+                "eks:DescribeCluster",
+                "ec2:DescribeRegions",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeInstanceAttribute",
+                "ec2:DescribeImages",
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+                "sts:AssumeRole",
+                "pricing:GetProducts",
+                "ec2:DescribeInstanceTypeOfferings",
+                "ec2:DescribeSpotPriceHistory",
+                "ec2:CreateTags"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+***신뢰 할수 있는 엔티티
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Federated": "arn:aws:iam::241533155281:oidc-provider/oidc.eks.ap-northeast-2.amazonaws.com/id/004158EBAF1DE96781A6F65119AFF55C"
+            },
+            "Action": "sts:AssumeRoleWithWebIdentity",
+            "Condition": {
+                "StringEquals": {
+                    "oidc.eks.ap-northeast-2.amazonaws.com/id/004158EBAF1DE96781A6F65119AFF55C:sub": "system:serviceaccount:karpenter:karpenter"
+                }
+            }
+        }
+    ]
+}

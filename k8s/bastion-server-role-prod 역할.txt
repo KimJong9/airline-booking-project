@@ -1,0 +1,17 @@
+# 정책: AmazonEKSClusterPolicy (기존)
+
+# 정책: AmazonSSMManagedInstanceCore (기존)
+
+***신뢰할수 있는 엔티티
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "ec2.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
