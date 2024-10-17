@@ -1,0 +1,6 @@
+
+
+1. 클러스터 > 액세스 > API 및 config 맵 누르고 저장
+
+2. IAM 액세스 항목 구성 > AmazonEKSClusterAdminPolicy 선택 > 정책추가 > 	
+AmazonEKSEditPolicy 정책 추가 

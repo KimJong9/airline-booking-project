@@ -1,0 +1,12 @@
+# Amazon CloudWatch
+
+*구성 방법:
+
+1. 그라파나 접속해서 data soruce 로 추가.
+2. 707로 rds 대시보드 생성
+
+eksctl utils update-cluster-logging --cluster <cluster-name> --enable-types all --region <region>
+
+kubectl apply -f https://raw.githubusercontent.com/aws/aws-for-fluent-bit/mainline/deployment/aws-observability/fluent-bit-cloudwatch.yaml
+
+특징: 애플리케이션 로그, 시스템 로그, Kubernetes 이벤트 로그 등을 중앙에서 관리.

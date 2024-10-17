@@ -1,0 +1,212 @@
+# 정책 역할에서 분리하기
+aws iam detach-role-policy --role-name AmazonEKSLoadBalancerControllerRole --policy-arn arn:aws:iam::730335464445:policy/AWSLoadBalancerControllerIAMPolicy
+
+# 기존 정책 지우기
+aws iam delete-policy --policy-arn arn:aws:iam::730335464445:policy/AWSLoadBalancerControllerIAMPolicy
+
+# IAM OIDC 자격 증명 공급자를 생성
+eksctl utils associate-iam-oidc-provider --cluster my-cluster --approve
+
+# 정책 다시 넣기
+  aws iam create-policy   --policy-name AWSLoadBalancerControllerIAMPolicy   --policy-document '{
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "acm:DescribeCertificate",
+            "acm:ListCertificates",
+            "acm:GetCertificate",
+            "ec2:AuthorizeSecurityGroupIngress",
+            "ec2:CreateSecurityGroup",
+            "ec2:CreateTags",
+            "ec2:DeleteTags",
+            "ec2:DeleteSecurityGroup",
+            "ec2:DescribeInstances",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeVpcs",
+            "ec2:DescribeTags",
+            "elasticloadbalancing:AddListenerCertificates",
+            "elasticloadbalancing:AddTags",
+            "elasticloadbalancing:CreateListener",
+            "elasticloadbalancing:CreateLoadBalancer",
+            "elasticloadbalancing:CreateRule",
+            "elasticloadbalancing:CreateTargetGroup",
+            "elasticloadbalancing:DeleteListener",
+            "elasticloadbalancing:DeleteLoadBalancer",
+            "elasticloadbalancing:DeleteRule",
+            "elasticloadbalancing:DeleteTargetGroup",
+            "elasticloadbalancing:DeregisterTargets",
+            "elasticloadbalancing:DescribeListeners",
+            "elasticloadbalancing:DescribeLoadBalancers",
+            "elasticloadbalancing:DescribeLoadBalancerAttributes",
+            "elasticloadbalancing:DescribeRules",
+            "elasticloadbalancing:DescribeSSLPolicies",
+            "elasticloadbalancing:DescribeTags",
+            "elasticloadbalancing:DescribeTargetGroups",
+            "elasticloadbalancing:DescribeTargetHealth",
+            "elasticloadbalancing:ModifyListener",
+            "elasticloadbalancing:ModifyLoadBalancerAttributes",
+            "elasticloadbalancing:ModifyRule",
+            "elasticloadbalancing:ModifyTargetGroup",
+            "elasticloadbalancing:ModifyTargetGroupAttributes",
+            "elasticloadbalancing:RegisterTargets",
+            "elasticloadbalancing:RemoveListenerCertificates",
+            "elasticloadbalancing:RemoveTags",
+            "elasticloadbalancing:SetIpAddressType",
+            "elasticloadbalancing:SetSecurityGroups",
+            "elasticloadbalancing:SetSubnets",
+            "elasticloadbalancing:SetWebACL",
+            "iam:CreateServiceLinkedRole",
+            "iam:GetServerCertificate",
+            "iam:ListServerCertificates",
+            "cognito-idp:DescribeUserPoolClient",
+            "waf-regional:GetWebACLForResource",
+            "waf-regional:AssociateWebACL",
+            "waf-regional:DisassociateWebACL",
+            "shield:GetSubscriptionState",
+            "tag:GetResources",
+            "tag:TagResources",
+            "waf:GetWebACL"
+          ],
+          "Resource": "*"
+        }
+      ]
+    }'
+
+  # 역할 만들기
+  aws iam create-role   --role-name AmazonEKSLoadBalancerControllerRole   --assume-role-policy-document '{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Federated": "arn:aws:iam::730335464445:oidc-provider/oidc.eks.<YOUR_REGION>.amazonaws.com/id/my-cluster"
+        },
+        "Action": "sts:AssumeRoleWithWebIdentity",
+        "Condition": {
+          "StringEquals": {
+            "oidc.eks.<YOUR_REGION>.amazonaws.com/id/my-cluster:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+          }
+        }
+      }
+    ]
+  }'
+
+* 꼭 해주기
+# 정책 role에 붙이기 
+aws iam attach-role-policy   --role-name AmazonEKSLoadBalancerControllerRole   --policy-arn arn:aws:iam::730335464445:policy/AWSLoadBalancerControllerIAMPolicy
+
+# 헬름 설치
+sudo yum update -y
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+helm version
+
+# eks-charts 차트 Helm 리포지토리를 추가
+helm repo add eks https://aws.github.io/eks-charts
+
+# 최신 차트가 적용되도록 로컬 리포지토리를 업데이트합니다.
+  helm repo update eks
+
+* vpc 수정 
+# AWS Load Balancer Controller를 설치
+  helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller --set region=ap-northeast-2 --set vpcId=vpc-08a46083992b0687e
+
+# crds 설치
+wget https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml 
+kubectl apply -f crds.yaml
+
+# 컨트롤러 restart
+  kubectl rollout restart deployment aws-load-balancer-controller -n kube-system
+
+# 서비스 어카운트 생성
+kubectl create serviceaccount aws-load-balancer-controller -n kube-system
+kubectl create clusterrolebinding aws-load-balancer-controller-rolebinding --clusterrole=cluster-admin --serviceaccount=kube-system:aws-load-balancer-controller
+kubectl rollout restart deployment aws-load-balancer-controller -n kube-system
+
+# 서비스 어카운트 수정
+kubectl edit serviceAccount aws-load-balancer-controller -n kube-system
+
+######################### > 산이 형이 위에 과정 완료
+
+# 서비스 어카운트에 IAM 역할 추가하기
+kubectl annotate serviceaccount -n kube-system aws-load-balancer-controller \
+  eks.amazonaws.com/role-arn=arn:aws:iam::730335464445:role/AmazonEKSLoadBalancerControllerRole
+
+# 확인
+kubectl get deployment -n kube-system aws-load-balancer-controller
+
+# 정책 추가
+
+eksctl utils associate-iam-oidc-provider --cluster my-cluster --approve > 중복
+
+
+* 달라지는 클러스터 id 때문에 업데이트 해줘야 함.
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<YOUR_ACCOUNT_ID>:oidc-provider/oidc.eks.<REGION>.amazonaws.com/id/<CLUSTER_ID>"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "oidc.eks.<REGION>.amazonaws.com/id/<CLUSTER_ID>:sub": "system:serviceaccount:kube-system:aws-load-balancer-controller"
+        }
+      }
+    }
+  ]
+}
+
+# 정책 sts:AssumeRoleWithWebIdentity 확인
+aws iam list-attached-role-policies --role-name AmazonEKSLoadBalancerControllerRole
+
+aws iam attach-role-policy \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --policy-arn arn:aws:iam::aws:policy/AWSLoadBalancerControllerIAMPolicy
+
+
+aws iam update-assume-role-policy \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --policy-document file://trust-policy.json
+
+
+########################프로젝트 클러스터에 적용
+# 정책 생성
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:CreateSecurityGroup",
+        "ec2:DeleteSecurityGroup",
+        "ec2:AuthorizeSecurityGroupIngress",
+        "ec2:AuthorizeSecurityGroupEgress",
+        "ec2:RevokeSecurityGroupIngress",
+        "ec2:RevokeSecurityGroupEgress",
+        "ec2:DescribeSecurityGroups",
+        "ec2:DescribeSecurityGroupRules",
+        "ec2:CreateSecurityGroup"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
+aws iam update-assume-role-policy \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --policy-document file://ec2-auth-policy.json
+
+
+# vpc 및 퍼블릭에 태그 붙이기
+- kubernetes.io/role/elb = 1
+
+
+# 워커 노드 보안 그룹에 대상검사 포트 뚫기 
+ex) sg-0ab7d497602879e8f - eks-cluster-sg-jaws_prod_cluster-544705666

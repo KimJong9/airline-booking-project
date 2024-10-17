@@ -1,0 +1,68 @@
+################# 프로메테우스 설치
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+kubectl create namespace monitoring
+helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
+kubectl get all -n monitoring
+
+################# 그라파나 설치
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm install grafana grafana/grafana --namespace monitoring --set adminPassword='qwer1234'
+
+################# 연동
+kubectl edit svc grafana -n monitoring
+
+spec:
+  type: LoadBalancer
+
+kubectl get svc -n monitoring grafana
+
+
+###### 접속하는 법
+이후 로드벨런서 dns 주소:80 로 브라우저로 접속
+
+kubectl get svc -n monitoring
+
+데이터 소스 등록 > http://prometheus-kube-prometheus-prometheus.monitoring.svc.cluster.local:9090
+
+
+# 그라파나 대시보드에 그래픽 구성을 위한 쿼리 문
+- Running 상태의 컨테이너 : kube_pod_container_status_running{namespace="<namespace>"}
+- Waiting 상태의 컨테이너 : kube_pod_container_status_waiting{namespace="<namespace>"}
+- Terminated 상태의 컨테이너 : kube_pod_container_status_terminated{namespace="<namespace>"}
+- 비정상적으로 재시작된 컨테이너 : kube_pod_container_status_restarts_total{namespace="<namespace>"}
+- 컨테이너 CPU 사용량 확인 : rate(container_cpu_usage_seconds_total{namespace="<namespace>", pod=~".*"}[5m])
+- 컨테이너 메모리 사용량 확인 : container_memory_usage_bytes{namespace="<namespace>", pod=~".*"}
+- 컨테이너 네트워크 트래픽 확인
+  -- 컨테이너에서 전송된 및 수신된 네트워크 트래픽을 확인하는 쿼리입니다.
+     -- 네트워크 수신 트래픽: rate(container_network_receive_bytes_total{namespace="<namespace>", pod=~".*"}[5m])
+     -- 네트워크 송신 트래픽: rate(container_network_transmit_bytes_total{namespace="<namespace>", pod=~".*"}[5m])
+- 컨테이너의 현재 상태 확인 (Summary)
+  -- Running 상태 컨테이너 수: count(kube_pod_container_status_running{namespace="<namespace>"}) by (pod, container)
+  -- Waiting 상태 컨테이너 수: count(kube_pod_container_status_waiting{namespace="<namespace>"}) by (pod, container)
+  -- Terminated 상태 컨테이너 수: count(kube_pod_container_status_terminated{namespace="<namespace>"}) by (pod, container)
+- 특정 컨테이너의 상태 확인
+  -- 특정 컨테이너의 상태 확인: kube_pod_container_status_running{namespace="default", pod="nginx-deployment-5d5b9b5d6f-abcde"}
+- CPU 사용률 (%) 계산 쿼리: 
+  -- 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+- CPU 사용량 (모든 모드 포함): sum by (instance) (rate(node_cpu_seconds_total[5m]))
+- 노드 CPU 사용률 계산 (전체 용량 대비): 100 * (1 - avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])))
+
+---
+
+# 밑에 계기판 설정
+1. CPU
+sum by (instance) (irate(node_cpu_seconds_total{mode!~"guest.*|idle|iowait", node="$instance"}[5m]))
+2. memory
+(node_memory_MemTotal_bytes{node="$instance"}-node_memory_MemAvailable_bytes{node="$instance"})/node_memory_MemTotal_bytes{node="$instance"}
+3. disk
+sum(node_filesystem_size_bytes{node="$instance"} - node_filesystem_avail_bytes{node="$instance"}) by (instance) / sum(node_filesystem_size_bytes{node="$instance"}) by (instance)
+
+---
+# 슬랙 알림 설정
+
+
+
+
+

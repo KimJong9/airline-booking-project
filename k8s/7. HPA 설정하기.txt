@@ -1,0 +1,86 @@
+
+# HPA 컨테이너 증가 공식
+CPU 사용량 비율 (%) = (현재 사용된 CPU / 요청된 CPU) * 100
+
+
+1. hpa 설정 배포
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nginx-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+
+
+2. 수정된 마리오 코드 > 예시
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mario
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mario
+  template:
+    metadata:
+      labels:
+        app: mario
+    spec:
+      containers:
+      - name: mario-container
+        image: pengbai/docker-supermario
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: "200m"    # 최소 200m CPU 요청 (0.2 vCPU)
+            memory: "256Mi"  # 최소 256Mi 메모리 요청
+          limits:
+            cpu: "500m"    # 최대 500m CPU 제한 (0.5 vCPU)
+            memory: "512Mi"  # 최대 512Mi 메모리 제한
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: mario-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: mario
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 50
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mario
+spec:
+  selector:
+    app: mario
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+
+
+
+(!) 상태 확인
+kubectl get hpa
+
+(!) 부하 테스트 
+kubectl run -i --tty load-generator --image=busybox /bin/sh
+# 아래 명령으로 CPU 부하를 가합니다.
+while true; do wget -q -O- http://booking-service:5002; done
+
+kubectl get hpa --watch

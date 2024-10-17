@@ -1,0 +1,46 @@
+
+
+(!)주의(minAvailable 값이 replicas 값보다 크면 안 됩니다.)
+
+#테스트 시나리오
+*시나리오 1: Pod 수동 삭제
+이제 3개의 Pod를 수동으로 삭제해 봅니다: kubectl delete pod <pod_name_1> <pod_name_2> <pod_name_3>
+Pod를 삭제하면 Kubernetes는 minAvailable: 2 조건을 적용하여 최소한 2개의 Pod가 항상 남아 있어야 한다는 조건을 유지합니다. 따라서, 세 번째 Pod를 삭제하려고 하면 Kubernetes는 삭제를 거부할 수 있습니다.
+
+*시나리오 2: 노드 드레인 (Drain) 테스트
+kubectl drain <node_name> --ignore-daemonsets --force --delete-local-data
+
+
+
+# booking-service-pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: booking-service-pdb
+spec:
+  minAvailable: 2  # 최소한 2개의 Pod는 항상 가용해야 함
+  selector:
+    matchLabels:
+      app: booking-service
+---
+# flight-service-pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: flight-service-pdb
+spec:
+  minAvailable: 2  # 최소한 2개의 Pod는 항상 가용해야 함
+  selector:
+    matchLabels:
+      app: flight-service
+---
+# user-service-pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: user-service-pdb
+spec:
+  minAvailable: 2  # 최소한 2개의 Pod는 항상 가용해야 함
+  selector:
+    matchLabels:
+      app: user-service
