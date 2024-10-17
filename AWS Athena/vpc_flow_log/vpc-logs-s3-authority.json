@@ -1,0 +1,29 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AWSLogDeliveryWrite",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "delivery.logs.amazonaws.com"
+            },
+            "Action": [
+                "s3:PutObject",
+                "s3:GetBucketAcl",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::jaws-vpc-logs",
+                "arn:aws:s3:::jaws-vpc-logs/*"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:SourceAccount": "241533155281"
+                },
+                "ArnLike": {
+                    "aws:SourceArn": "arn:aws:logs:*:*:*"
+                }
+            }
+        }
+    ]
+}
