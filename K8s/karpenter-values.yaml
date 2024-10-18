@@ -1,0 +1,8 @@
+clusterName: jaws_prod_cluster
+clusterEndpoint: https://004158EBAF1DE96781A6F65119AFF55C.gr7.ap-northeast-2.eks.amazonaws.com
+aws:
+  region: ap-northeast-2  # 리전을 명확히 설정
+  defaultInstanceProfile: eks-eec90d85-773a-2e9b-e47d-d5fc25a7261c   # 프로파일 확인하는 법 : aws iam list-instance-profiles
+  interruptQueueName: KarpenterInterruptQueue   # SQS를 사용할때 쓰는 옵션 * 
+  enableENILimitedPodDensity: true
+
