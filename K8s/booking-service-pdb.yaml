@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: booking-service-pdb
+spec:
+  minAvailable: 2  # 최소한 2개의 Pod는 항상 가용해야 함
+  selector:
+    matchLabels:
+      app: booking-service
+                                
